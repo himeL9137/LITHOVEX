@@ -1,0 +1,121 @@
+QUESTIONS YOU CAN ASK WITHOUT ANY API KEY
+==========================================
+All of the questions below are answered instantly by the system — no AI model,
+no API key, no internet connection required. Works in regular chat, co-work,
+and LITHOVEX co-work across all models.
+
+------------------------------------------
+SLEEP HELP
+------------------------------------------
+- I cannot sleep, can you help me sleep?
+- I can't sleep
+- Help me sleep
+- I have insomnia
+- I'm lying awake in bed
+- How do I fall asleep?
+- Sleep tips
+- Why can't I fall asleep?
+- I'm struggling to sleep
+
+------------------------------------------
+QUICK ACTIONS
+------------------------------------------
+- Design and code a stunning landing page from scratch
+- Build a landing page for me
+- Create beautiful, reusable UI components with Tailwind CSS
+- Build a modern, responsive website for me from scratch
+- Website from scratch
+- Give me a unique and detailed business idea with a plan
+- Generate a complete, production-ready code example for me
+
+------------------------------------------
+FREQUENTLY ASKED QUESTIONS (FAQ)
+------------------------------------------
+
+1.  What can you do?
+2.  What are your capabilities?
+3.  Are you human?
+4.  Are you a real person?
+5.  Am I talking to a human?
+6.  How do you work?
+7.  How were you built?
+8.  How were you trained?
+9.  Can you help me with homework?
+10. Homework help
+11. Can you write code?
+12. Can you code?
+13. Do you support programming?
+14. Is this free to use?
+15. Are you free to use?
+16. Do I have to pay?
+17. Do you remember our past conversations?
+18. Do you have memory?
+19. Can you remember our conversation?
+20. Can you access the internet?
+21. Do you have real-time internet access?
+22. Can you search the web?
+23. What are your limitations?
+24. What can't you do?
+25. Can you help me write an email?
+26. Can you write a message for me?
+27. Draft an email for me
+28. Can you translate?
+29. Can you translate languages?
+30. Do you speak other languages?
+31. Are my conversations private?
+32. Is this chat secure?
+33. Do you store my data?
+34. Can you give me life advice?
+35. Can you give career advice?
+36. Advice on my job / relationship
+37. Can you create images?
+38. Can you generate images?
+39. Image generation
+40. How smart are you?
+41. How intelligent are you?
+42. What is your IQ?
+43. Will you replace my job?
+44. Will AI take my job?
+45. Is AI going to replace jobs?
+46. Can you learn from our conversation?
+47. Do you improve from our chat?
+48. Can you help with creative writing?
+49. Help me write a story
+50. Help me write a poem
+51. Can you summarize this?
+52. Can you summarize an article?
+53. Summarize this document
+54. Can you help me study?
+55. Help me prepare for an exam
+56. Study help
+57. Exam prep
+58. Can you fact-check?
+59. Can you verify this?
+60. Is this true?
+61. Can you solve math problems?
+62. Solve this equation
+63. Math problem help
+64. Science problem help
+65. What is the difference between you and Google?
+66. How are you different from a search engine?
+67. Why should I use you instead of Google?
+
+------------------------------------------
+IDENTITY & CREATOR (always answered)
+------------------------------------------
+- Who made you?
+- Who created you?
+- Who built LITHOVEX?
+- Who is your creator?
+- Who owns you?
+- What model are you?
+- Which AI is this?
+- Are you GPT?
+- Are you ChatGPT?
+- Introduce yourself
+
+------------------------------------------
+NOTE
+------------------------------------------
+Phrasing variations work too — you don't have to ask the exact question.
+The system uses pattern matching, so natural variations are recognized.

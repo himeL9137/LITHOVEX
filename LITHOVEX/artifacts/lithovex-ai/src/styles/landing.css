@@ -1,0 +1,337 @@
+/* ═══════════════════════════════════════════════════
+   LITHOVEX LANDING PAGE — Custom styles (purple theme)
+   ═══════════════════════════════════════════════════ */
+
+.landing-root {
+  --gold: #8b5cf6;
+  --gold-light: #c4b5fd;
+  --gold-dark: #5b21b6;
+  --gold-glow: rgba(139,92,246,0.35);
+  --navy: #0a0a0f;
+  --navy-2: #10101a;
+  --navy-3: #161625;
+}
+
+.landing-root *,
+.landing-root *::before,
+.landing-root *::after {
+  box-sizing: border-box;
+}
+
+.landing-root {
+  background: var(--navy);
+  color: #e2e8f0;
+  font-family: 'Maple Mono', 'Fira Mono', monospace;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+.landing-root h1,
+.landing-root h2,
+.landing-root h3,
+.landing-root h4,
+.landing-root h5 {
+  font-family: 'Oxanium', 'Segoe UI', sans-serif;
+}
+
+/* KEYFRAMES */
+@keyframes lp-morphGradient {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+/* GPU-acceleration helper */
+.landing-root .gpu-accel {
+  transform: translateZ(0);
+}
+@keyframes lp-float {
+  0%,100%{transform:translateY(0px) rotate(0deg)}
+  33%{transform:translateY(-8px) rotate(0.5deg)}
+  66%{transform:translateY(4px) rotate(-0.3deg)}
+}
+@keyframes lp-glitch {
+  0%,100%{text-shadow:none;transform:translate(0)}
+  2%{text-shadow:-2px 0 #ff0040,2px 0 #0ff;transform:translate(-1px,1px)}
+  4%{text-shadow:2px 0 #ff0040,-2px 0 #0ff;transform:translate(1px,-1px)}
+  6%{text-shadow:none;transform:translate(0)}
+}
+@keyframes lp-shimmer {
+  0%{background-position:-200% 0}
+  100%{background-position:200% 0}
+}
+@keyframes lp-pulseGlow {
+  0%,100%{box-shadow:0 0 20px rgba(139,92,246,0.3),0 0 40px rgba(139,92,246,0.1)}
+  50%{box-shadow:0 0 30px rgba(139,92,246,0.5),0 0 60px rgba(139,92,246,0.2),0 0 80px rgba(139,92,246,0.1)}
+}
+@keyframes lp-borderFlow {
+  0%{background-position:0% 50%}
+  100%{background-position:300% 50%}
+}
+@keyframes lp-fadeInUp {
+  from{opacity:0;transform:translateY(40px) scale(0.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes lp-fadeInBlur {
+  from{opacity:0;filter:blur(8px);transform:translateY(12px)}
+  to{opacity:1;filter:blur(0);transform:translateY(0)}
+}
+@keyframes lp-scaleIn {
+  from{opacity:0;transform:scale(0.8)}
+  to{opacity:1;transform:scale(1)}
+}
+@keyframes lp-slideInLeft {
+  from{opacity:0;transform:translateX(-60px)}
+  to{opacity:1;transform:translateX(0)}
+}
+@keyframes lp-marquee {
+  from{transform:translateX(0)}to{transform:translateX(-50%)}
+}
+@keyframes lp-bobFloat {
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+@keyframes lp-textReveal {
+  from{opacity:0;transform:translateY(20px) rotateX(-40deg)}
+  to{opacity:1;transform:translateY(0) rotateX(0)}
+}
+@keyframes lp-orbPulse {
+  0%,100%{transform:scale(1);opacity:0.15}
+  50%{transform:scale(1.15);opacity:0.25}
+}
+@keyframes lp-iconBounce {
+  0%,100%{transform:translateY(0)}
+  40%{transform:translateY(-10px)}
+  60%{transform:translateY(-5px)}
+}
+@keyframes lp-counterPop {
+  0%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+  100%{transform:scale(1)}
+}
+
+/* PURPLE MORPH TEXT (replaces gold-morph-text class) */
+.landing-root .gold-morph-text {
+  background: linear-gradient(270deg, #fff, var(--gold), var(--gold-dark), var(--gold-light), #fff);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: lp-morphGradient 8s ease infinite;
+}
+.landing-root .gold-gradient-text {
+  background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--gold-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* GLITCH TEXT */
+.landing-root .glitch-text {
+  animation: lp-glitch 4s infinite;
+  position: relative;
+}
+.landing-root .glitch-text::before,
+.landing-root .glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.landing-root .glitch-text::before {
+  color: #ff004040;
+  animation: lp-glitch 3s infinite reverse;
+  clip-path: inset(0 0 60% 0);
+}
+.landing-root .glitch-text::after {
+  color: #00ffff30;
+  animation: lp-glitch 2.5s infinite;
+  clip-path: inset(60% 0 0 0);
+}
+
+/* SHIMMER BUTTON */
+.landing-root .btn-shimmer {
+  position: relative;
+  overflow: hidden;
+  animation: lp-pulseGlow 3s ease-in-out infinite;
+}
+.landing-root .btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: lp-shimmer 3s ease-in-out infinite;
+}
+
+/* GLASS CARD */
+.landing-root .glass-card {
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: border-color 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+              transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  contain: layout paint;
+}
+.landing-root .glass-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 30px var(--gold-glow), 0 20px 60px rgba(0,0,0,0.4);
+}
+.landing-root .glass-card.float-bob {
+  animation: lp-bobFloat 5s ease-in-out infinite;
+}
+.landing-root .glass-card.float-bob:nth-child(2){animation-delay:0.5s}
+.landing-root .glass-card.float-bob:nth-child(3){animation-delay:1s}
+.landing-root .glass-card.float-bob:nth-child(4){animation-delay:1.5s}
+
+/* GRADIENT BORDER */
+.landing-root .gradient-border {position:relative}
+.landing-root .gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent, var(--gold-dark), transparent);
+  background-size: 300% 100%;
+  animation: lp-borderFlow 4s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.landing-root .gradient-border:hover::before {opacity:1}
+
+/* SCROLL REVEAL */
+.landing-root .reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: none;
+}
+.landing-root .reveal.active {
+  animation: lp-fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.landing-root .reveal-blur {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(12px);
+  transition: none;
+}
+.landing-root .reveal-blur.active {
+  animation: lp-fadeInBlur 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.landing-root .reveal-scale {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: none;
+}
+.landing-root .reveal-scale.active {
+  animation: lp-scaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.landing-root .reveal-left {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+.landing-root .reveal-left.active {
+  animation: lp-slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.landing-root .stagger-1{animation-delay:0.05s!important}
+.landing-root .stagger-2{animation-delay:0.12s!important}
+.landing-root .stagger-3{animation-delay:0.2s!important}
+.landing-root .stagger-4{animation-delay:0.28s!important}
+.landing-root .stagger-5{animation-delay:0.36s!important}
+.landing-root .stagger-6{animation-delay:0.44s!important}
+
+/* WORD REVEAL */
+.landing-root .word-reveal .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px) rotateX(-40deg);
+  transition: none;
+}
+.landing-root .word-reveal.active .word {
+  animation: lp-textReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ICON ANIMATED */
+.landing-root .icon-animated {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.landing-root .glass-card:hover .icon-animated {
+  animation: lp-iconBounce 0.6s ease;
+  transform: scale(1.1);
+}
+
+/* COUNTER */
+.landing-root .counter-animated.pop {
+  animation: lp-counterPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* PARALLAX ORB */
+.landing-root .parallax-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(40px);
+  animation: lp-orbPulse 8s ease-in-out infinite;
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout paint;
+}
+
+/* NAV LINK */
+.landing-root .nav-link {position:relative}
+.landing-root .nav-link::after {
+  content:'';display:block;width:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light));
+  transition:width 0.35s cubic-bezier(0.23,1,0.32,1);
+  border-radius:1px;
+}
+.landing-root .nav-link:hover::after{width:100%}
+
+/* MARQUEE */
+.landing-root .marquee-track {
+  display:flex;width:max-content;
+  animation:lp-marquee 35s linear infinite;
+}
+.landing-root .marquee-track:hover{animation-play-state:paused}
+
+/* PRICING BEST */
+.landing-root .pricing-best {
+  border-color:var(--gold)!important;
+  background:linear-gradient(180deg,rgba(139,92,246,0.06)0%,rgba(10,10,15,0)60%);
+}
+
+/* SCROLLBAR */
+.landing-root ::-webkit-scrollbar{width:6px}
+.landing-root ::-webkit-scrollbar-track{background:var(--navy)}
+.landing-root ::-webkit-scrollbar-thumb{background:#222;border-radius:3px}
+.landing-root ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+/* LOGO FLOAT */
+.landing-root .logo-float {
+  animation: lp-float 6s ease-in-out infinite;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .landing-root *,
+  .landing-root *::before,
+  .landing-root *::after{
+    animation-duration:0.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:0.01ms!important;
+  }
+  .landing-root .reveal,
+  .landing-root .reveal-blur,
+  .landing-root .reveal-scale,
+  .landing-root .reveal-left{opacity:1;transform:none;filter:none}
+  .landing-root .word-reveal .word{opacity:1;transform:none}
+  .landing-root .parallax-orb{animation:none}
+  .landing-root .marquee-track{animation:none}
+}

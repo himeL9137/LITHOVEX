@@ -1,0 +1,104 @@
+:root {
+  /* Dark Theme - Primary */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1a1a1a;
+  --bg-elevated: #1e1e1e;
+
+  /* Borders */
+  --border-primary: #2a2a2a;
+  --border-secondary: #333333;
+  --border-focus: #444444;
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #666666;
+  --text-inverse: #0a0a0a;
+
+  /* Accents */
+  --accent-primary: #3b82f6;
+  --accent-secondary: #2563eb;
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-error: #ef4444;
+  --accent-info: #06b6d4;
+
+  /* Syntax Highlighting */
+  --syntax-keyword: #c678dd;
+  --syntax-function: #61afef;
+  --syntax-string: #98c379;
+  --syntax-number: #d19a66;
+  --syntax-comment: #5c6370;
+  --syntax-operator: #56b6c2;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  /* Z-Index */
+  --z-dropdown: 100;
+  --z-modal: 200;
+  --z-tooltip: 300;
+}
+
+/* Light Theme Overrides */
+.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #e5e5e5;
+  --bg-elevated: #ffffff;
+
+  --border-primary: #e5e5e5;
+  --border-secondary: #d4d4d4;
+  --border-focus: #a0a0a0;
+
+  --text-primary: #171717;
+  --text-secondary: #525252;
+  --text-tertiary: #a3a3a3;
+  --text-inverse: #ffffff;
+}
+
+/* Selection */
+::selection {
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+}
+
+/* Focus States */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Utility Classes */
+.lv-text-primary { color: var(--text-primary); }
+.lv-text-secondary { color: var(--text-secondary); }
+.lv-text-tertiary { color: var(--text-tertiary); }
+
+.lv-bg-primary { background-color: var(--bg-primary); }
+.lv-bg-secondary { background-color: var(--bg-secondary); }
+.lv-bg-tertiary { background-color: var(--bg-tertiary); }
+
+.lv-border-primary { border-color: var(--border-primary); }
+.lv-border-secondary { border-color: var(--border-secondary); }
+
+.lv-transition-fast { transition: var(--transition-fast); }
+.lv-transition-normal { transition: var(--transition-normal); }

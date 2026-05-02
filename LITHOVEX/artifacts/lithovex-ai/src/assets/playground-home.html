@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Playground</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-primary: #0a0a0b;
+    --bg-secondary: #121214;
+    --bg-tertiary: #1a1a1e;
+    --bg-card: #16161a;
+    --bg-hover: #1e1e22;
+    --bg-input: #1c1c20;
+    --border-color: #2a2a2e;
+    --border-light: #333338;
+    --text-primary: #e4e4e7;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --accent-blue: #6366f1;
+    --accent-purple: #8b5cf6;
+    --accent-gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
+    --accent-glow: rgba(99, 102, 241, 0.15);
+    --success: #22c55e;
+    --danger: #ef4444;
+    --chip-bg: rgba(99, 102, 241, 0.12);
+    --chip-border: rgba(99, 102, 241, 0.25);
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* Grid Background */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Canvas Container */
+  .canvas-container {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 48px);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .canvas-inner {
+    position: absolute;
+    inset: 0;
+    transform-origin: center center;
+    transition: transform 0.3s ease;
+  }
+
+  /* Main Content Area */
+  .main-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  /* Welcome Screen */
+  .welcome-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .welcome-screen.hidden {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .welcome-emoji {
+    font-size: 48px;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(250, 204, 21, 0.3));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .welcome-title {
+    font-size: 36px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    letter-spacing: -0.5px;
+  }
+
+  /* Model Chips Row */
+  .model-chips-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    position: relative;
+  }
+
+  .model-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .model-chip:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+
+  .model-chip.active {
+    background: rgba(99, 102, 241, 0.25);
+    border-color: rgba(99, 102, 241, 0.5);
+  }
+
+  .model-chip-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  .model-chip-remove {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .model-chip-remove:hover {
+    opacity: 1;
+    background: rgba(239, 68, 68, 0.2);
+  }
+
+  .add-model-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: var(--bg-tertiary);
+    border: 1px dashed var(--border-light);
+    color: var(--text-muted);
+    font-size: 18px;
+    transition: all 0.2s;
+  }
+
+  .add-model-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+  }
+
+  /* Input Area */
+  .input-area-wrapper {
+    width: 100%;
+    max-width: 720px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .input-area {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .input-area:focus-within {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--accent-glow), var(--shadow);
+  }
+
+  .model-selector-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .chat-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-family: inherit;
+    resize: none;
+    min-height: 24px;
+    max-height: 200px;
+    line-height: 1.5;
+  }
+
+  .chat-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .input-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .suggestion-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .suggestion-pill {
+    padding: 6px 14px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .suggestion-pill:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+  }
+
+  .send-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--accent-gradient);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .send-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+  }
+
+  .send-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .send-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: white;
+  }
+
+  /* Response Panels */
+  .response-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 40px;
+  }
+
+  .response-container.visible {
+    display: flex;
+  }
+
+  .user-message {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px 20px;
+    max-width: 720px;
+    margin: 0 auto;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+
+  .responses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .response-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: panelAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes panelAppear {
+    from { opacity: 0; transform: translateY(16px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .panel-model-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .panel-actions {
+    display: flex;
+    gap: 4px;
+  }
+
+  .panel-action-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .panel-action-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .panel-body {
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .panel-body::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .panel-body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .panel-body::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+
+  .panel-body h1, .panel-body h2, .panel-body h3 {
+    color: var(--text-primary);
+    margin: 16px 0 8px 0;
+    font-weight: 600;
+  }
+
+  .panel-body h1 { font-size: 18px; }
+  .panel-body h2 { font-size: 16px; }
+  .panel-body h3 { font-size: 14px; }
+
+  .panel-body p {
+    margin: 8px 0;
+  }
+
+  .panel-body ul, .panel-body ol {
+    padding-left: 20px;
+    margin: 8px 0;
+  }
+
+  .panel-body li {
+    margin: 4px 0;
+  }
+
+  .panel-body code {
+    background: var(--bg-tertiary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    color: var(--accent-blue);
+  }
+
+  .panel-body pre {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px 0;
+    overflow-x: auto;
+  }
+
+  .panel-body pre code {
+    background: none;
+    padding: 0;
+    color: var(--text-secondary);
+  }
+
+  .panel-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-top: 1px solid var(--border-color);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* Loading Indicator */
+  .loading-dots {
+    display: inline-flex;
+    gap: 4px;
+    padding: 8px 0;
+  }
+
+  .loading-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    animation: dotPulse 1.4s ease-in-out infinite;
+  }
+
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dotPulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* New Input Bar (after sending) */
+  .new-input-bar {
+    width: 100%;
+    max-width: 720px;
+    margin-top: 20px;
+    display: none;
+    animation: slideUp 0.3s ease;
+  }
+
+  .new-input-bar.visible {
+    display: block;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Zoom Controls */
+  .zoom-controls {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+
+  .zoom-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .zoom-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .zoom-btn.active {
+    background: var(--accent-glow);
+    color: var(--accent-blue);
+  }
+
+  .zoom-separator {
+    width: 1px;
+    height: 24px;
+    background: var(--border-color);
+  }
+
+  .zoom-value {
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 40px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  /* Dropdown Menu */
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    overflow: hidden;
+    display: none;
+    animation: dropdownIn 0.2s ease;
+  }
+
+  .dropdown-menu.visible {
+    display: block;
+  }
+
+  @keyframes dropdownIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .dropdown-search {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .dropdown-search input {
+    width: 100%;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+  }
+
+  .dropdown-search input:focus {
+    border-color: var(--accent-blue);
+  }
+
+  .dropdown-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 6px;
+  }
+
+  .dropdown-list::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .dropdown-list::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .dropdown-item:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .dropdown-item.selected {
+    background: var(--accent-glow);
+    color: var(--accent-blue);
+  }
+
+  .dropdown-item-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  .dropdown-section-title {
+    padding: 8px 12px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Modal Overlay */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .modal-overlay.visible {
+    display: flex;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .modal-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.2s;
+  }
+
+  .modal-close:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .modal-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  /* Model Settings Layout */
+  .settings-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .settings-layout { grid-template-columns: 1fr; }
+  }
+
+  .settings-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .settings-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .settings-model-list {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-tertiary);
+  }
+
+  .settings-model-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .settings-model-item:last-child {
+    border-bottom: none;
+  }
+
+  .settings-model-item:hover {
+    background: var(--bg-hover);
+  }
+
+  .settings-model-item.selected {
+    background: var(--accent-glow);
+    color: var(--accent-blue);
+    border-left: 3px solid var(--accent-blue);
+  }
+
+  .settings-model-item-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    flex-shrink: 0;
+  }
+
+  /* Form Controls */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .form-description {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .form-select {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+
+  .form-select:focus {
+    border-color: var(--accent-blue);
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+
+  .toggle-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .toggle-label {
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+
+  .toggle-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .toggle-switch {
+    width: 40px;
+    height: 22px;
+    border-radius: 11px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .toggle-switch.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+  }
+
+  .toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    top: 2px;
+    left: 2px;
+    transition: all 0.2s;
+  }
+
+  .toggle-switch.active::after {
+    left: 20px;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slider-input {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--bg-tertiary);
+    outline: none;
+  }
+
+  .slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+  }
+
+  .slider-value {
+    font-size: 13px;
+    color: var(--text-primary);
+    min-width: 40px;
+    text-align: right;
+    font-weight: 500;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+
+  .btn-primary {
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+  }
+
+  .btn-secondary:hover {
+    background: var(--bg-hover);
+  }
+
+  .btn-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border-color: rgba(239, 68, 68, 0.2);
+  }
+
+  .btn-danger:hover {
+    background: rgba(239, 68, 68, 0.2);
+  }
+
+  /* Personas Panel */
+  .personas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .persona-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .persona-card:hover {
+    border-color: var(--accent-blue);
+    background: var(--bg-hover);
+  }
+
+  .persona-card.selected {
+    border-color: var(--accent-blue);
+    background: var(--accent-glow);
+  }
+
+  .persona-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .persona-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .persona-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .add-persona-card {
+    border-style: dashed;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+  }
+
+  .add-persona-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--bg-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+
+  .persona-card:hover .add-persona-icon {
+    background: var(--accent-glow);
+    color: var(--accent-blue);
+  }
+
+  /* Persona Editor */
+  .persona-editor {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .persona-editor.visible {
+    display: flex;
+  }
+
+  .form-input {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-input:focus {
+    border-color: var(--accent-blue);
+  }
+
+  textarea.form-input {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  /* Top toolbar */
+  .top-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 50;
+  }
+
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    width: 24px;
+    height: 24px;
+    background: var(--accent-gradient);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .tool-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .tool-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .tool-btn .tooltip {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    border: 1px solid var(--border-color);
+  }
+
+  .tool-btn:hover .tooltip {
+    opacity: 1;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* Dock preview */
+  .dock-preview {
+    position: fixed;
+    right: 16px;
+    bottom: 60px;
+    width: 160px;
+    height: 100px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+  }
+
+  .dock-preview.visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .dock-preview-label {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .welcome-title { font-size: 24px; }
+    .responses-grid { grid-template-columns: 1fr; }
+    .suggestion-pills { display: none; }
+    .settings-layout { grid-template-columns: 1fr; }
+    .personas-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Scrollbar global */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+  }
+
+  /* Pulse animation for send */
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+  }
+
+  .sending .panel-body {
+    animation: pulse 1.5s ease;
+  }
+
+  /* New conversation indicator */
+  .new-convo-bar {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    max-width: 720px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .new-convo-bar.visible {
+    display: flex;
+  }
+
+  .new-convo-bar:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .history-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .history-item:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .history-section-title {
+    padding: 8px 14px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Grid Background -->
+<div class="grid-bg"></div>
+
+<!-- Top Toolbar -->
+<div class="top-toolbar">
+  <div class="toolbar-left">
+    <div class="logo">
+      <div class="logo-icon">L</div>
+      <span>LITHOVEX</span>
+    </div>
+  </div>
+  <div class="toolbar-right">
+    <button class="tool-btn" onclick="openPersonas()" title="Personas">
+      👤
+      <span class="tooltip">Personas</span>
+    </button>
+    <button class="tool-btn" onclick="newConversation()" title="New Chat">
+      ↻
+      <span class="tooltip">New Chat</span>
+    </button>
+    <button class="tool-btn" onclick="downloadChat()" title="Download">
+      ↓
+      <span class="tooltip">Download</span>
+    </button>
+    <div class="avatar">HK</div>
+  </div>
+</div>
+
+<!-- Canvas Container -->
+<div class="canvas-container" id="canvasContainer">
+  <div class="canvas-inner" id="canvasInner">
+    <div class="main-content" id="mainContent">
+
+      <!-- Welcome Screen -->
+      <div class="welcome-screen" id="welcomeScreen">
+                <div class="model-chips-row" id="modelChipsRow">
+          <div class="model-chip active" onclick="openModelDropdown(this, 0)">
+            <div class="model-chip-icon" style="background:#ff6b6b;color:white;">M</div>
+            <span>MiniMax-M2.7</span>
+            <div class="model-chip-remove" onclick="event.stopPropagation(); removeModelChip(this)">×</div>
+          </div>
+          <div class="model-chip" onclick="openModelDropdown(this, 1)">
+            <div class="model-chip-icon" style="background:#4ecdc4;color:white;">G</div>
+            <span>gemma-4-31B-it</span>
+            <div class="model-chip-remove" onclick="event.stopPropagation(); removeModelChip(this)">×</div>
+          </div>
+          <div class="add-model-btn" onclick="openAddModelDropdown()">+</div>
+          <!-- Dropdown will be positioned here -->
+          <div class="dropdown-menu" id="modelDropdown"></div>
+        </div>
+
+        <div class="input-area-wrapper">
+          <div class="input-area">
+            <div class="model-selector-bar" id="inputModelBar"></div>
+            <textarea class="chat-input" id="chatInput" placeholder="Ask me anything..." rows="1" onkeydown="handleInputKeydown(event)" oninput="autoResize(this)"></textarea>
+            <div class="input-bottom">
+              <div class="suggestion-pills" id="suggestionPills">
+                <div class="suggestion-pill" onclick="useSuggestion(this)">Teach me a fun fact</div>
+                <div class="suggestion-pill" onclick="useSuggestion(this)">Convince me earth is flat</div>
+              </div>
+              <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Response Container -->
+      <div class="response-container" id="responseContainer">
+        <div class="user-message" id="userMessage"></div>
+        <div class="responses-grid" id="responsesGrid"></div>
+      </div>
+
+      <!-- New Input Bar (post-send) -->
+      <div class="new-input-bar" id="newInputBar">
+        <div class="input-area">
+          <div class="model-selector-bar" id="newInputModelBar"></div>
+          <textarea class="chat-input" id="newChatInput" placeholder="Ask me anything..." rows="1" onkeydown="handleInputKeydown(event)" oninput="autoResize(this)"></textarea>
+          <div class="input-bottom">
+            <div class="suggestion-pills" id="newSuggestionPills">
+              <div class="suggestion-pill" onclick="useSuggestion(this)">Explain quantum computing</div>
+              <div class="suggestion-pill" onclick="useSuggestion(this)">Write Python code for sorting</div>
+            </div>
+            <button class="send-btn" onclick="sendMessageFromNewInput()">
+              <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Zoom Controls -->
+<div class="zoom-controls">
+  <button class="zoom-btn" onclick="changeZoom(-0.1)" title="Zoom out">−</button>
+  <button class="zoom-btn" onclick="changeZoom(0.1)" title="Zoom in">+</button>
+  <div class="zoom-separator"></div>
+  <button class="zoom-btn" id="resetZoomBtn" onclick="resetZoom()" title="Reset zoom">↺</button>
+  <span class="zoom-value" id="zoomValue">100%</span>
+  <div class="zoom-separator"></div>
+  <button class="zoom-btn" id="pinBtn" onclick="togglePin()" title="Pin view">📌</button>
+  <button class="zoom-btn" onclick="toggleDock()" title="Dock mode">⬜</button>
+</div>
+
+<!-- Dock Preview -->
+<div class="dock-preview" id="dockPreview">
+  <span class="dock-preview-label">Dock Mode</span>
+</div>
+
+<!-- Model Settings Modal -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal" style="max-width: 750px;">
+    <div class="modal-header">
+      <span class="modal-title">Model Settings</span>
+      <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="settings-layout">
+        <div class="settings-left">
+          <input type="text" class="form-input" placeholder="Search models..." id="settingsSearch" oninput="filterSettingsModels()">
+          <div class="settings-model-list" id="settingsModelList"></div>
+        </div>
+        <div class="settings-right" id="settingsRight">
+          <div class="form-group">
+            <label class="form-label">Inference Provider</label>
+            <select class="form-select" id="inferenceProvider">
+              <option value="preferred">Preferred (your HF preference order)</option>
+              <option value="cheapest">Cheapest (lowest cost)</option>
+              <option value="fastest">Fastest (lowest latency)</option>
+              <option value="novita">Novita AI</option>
+            </select>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="toggle-label">Temperature</span>
+              <span class="toggle-desc">Tunes the creativity vs. predictability trade-off</span>
+            </div>
+            <div class="toggle-switch" id="tempToggle" onclick="toggleSetting('temp')"></div>
+          </div>
+          <div class="slider-row" id="tempSliderRow" style="display:none;">
+            <input type="range" class="slider-input" id="tempSlider" min="0" max="2" step="0.1" value="0.5" oninput="updateSliderValue('temp')">
+            <span class="slider-value" id="tempValue">0.5</span>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="toggle-label">Max Tokens</span>
+              <span class="toggle-desc">Sets the absolute limit for generated content length</span>
+            </div>
+            <div class="toggle-switch" id="maxTokensToggle" onclick="toggleSetting('maxTokens')"></div>
+          </div>
+          <div class="slider-row" id="maxTokensSliderRow" style="display:none;">
+            <input type="range" class="slider-input" id="maxTokensSlider" min="64" max="32768" step="64" value="15872" oninput="updateSliderValue('maxTokens')">
+            <span class="slider-value" id="maxTokensValue">15872</span>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="toggle-label">Top-P</span>
+              <span class="toggle-desc">Dynamically filters token selection by probability mass</span>
+            </div>
+            <div class="toggle-switch" id="topPToggle" onclick="toggleSetting('topP')"></div>
+          </div>
+          <div class="slider-row" id="topPSliderRow" style="display:none;">
+            <input type="range" class="slider-input" id="topPSlider" min="0" max="1" step="0.05" value="0.5" oninput="updateSliderValue('topP')">
+            <span class="slider-value" id="topPValue">0.5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" onclick="removeFromChat()">Remove from chat</button>
+      <button class="btn btn-secondary" onclick="saveSettings()">Save settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- Personas Modal -->
+<div class="modal-overlay" id="personasModal">
+  <div class="modal" style="max-width: 600px;">
+    <div class="modal-header">
+      <span class="modal-title">Personas Manager</span>
+      <button class="modal-close" onclick="closeModal('personasModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">Use a custom persona to customize the model's behavior.</p>
+      
+      <!-- Personas List View -->
+      <div id="personasListView">
+        <div class="personas-grid" id="personasGrid">
+          <div class="persona-card add-persona-card" onclick="openPersonaEditor()">
+            <div class="add-persona-icon">+</div>
+          </div>
+          <div class="persona-card selected" onclick="selectPersona(this, 'Assistant')">
+            <div class="persona-icon" style="background:rgba(99,102,241,0.15);color:#6366f1;">💬</div>
+            <div class="persona-name">Assistant</div>
+            <div class="persona-desc">Helpful, knowledgeable, and conversational</div>
+          </div>
+          <div class="persona-card" onclick="selectPersona(this, 'Code Reviewer')">
+            <div class="persona-icon" style="background:rgba(34,197,94,0.15);color:#22c55e;">🛡️</div>
+            <div class="persona-name">Code Reviewer</div>
+            <div class="persona-desc">Provides concise, actionable feedback on code</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona Editor View -->
+      <div class="persona-editor" id="personaEditor">
+        <button class="btn btn-secondary" onclick="closePersonaEditor()" style="align-self:flex-start;">← Back</button>
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-input" placeholder="e.g., Creative Writer" id="personaName">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description (optional)</label>
+          <input type="text" class="form-input" placeholder="A brief summary of what this persona does" id="personaDesc">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Instructions</label>
+          <textarea class="form-input" placeholder="You are a helpful assistant that..." id="personaInstructions"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="savePersona()" style="align-self:flex-end;">Save Persona</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ DATA ============
+const MODELS = [
+  { name: "MiniMax-M2.7", provider: "minimax", color: "#ff6b6b" },
+  { name: "gemma-4-31B-it", provider: "google", color: "#4ecdc4" },
+  { name: "gemma-4-268B-it", provider: "google", color: "#4ecdc4" },
+  { name: "Qwen/Qwen2.5-72B", provider: "qwen", color: "#6366f1" },
+  { name: "Qwen/Qwen2.5-32B", provider: "qwen", color: "#6366f1" },
+  { name: "Qwen/QwQ-32B", provider: "qwen", color: "#6366f1" },
+  { name: "meta-llama/Llama-3.3-70B", provider: "meta", color: "#3b82f6" },
+  { name: "meta-llama/Llama-3.1-8B", provider: "meta", color: "#3b82f6" },
+  { name: "deepseek-ai/DeepSeek-R1", provider: "deepseek", color: "#f59e0b" },
+  { name: "deepseek-ai/DeepSeek-V3", provider: "deepseek", color: "#f59e0b" },
+  { name: "ERNIE-4.5-VL-424B-Base-PT", provider: "baidu", color: "#10b981" },
+  { name: "ERNIE-4.5-32B-A3B-BT", provider: "baidu", color: "#10b981" },
+  { name: "Kimi-K2.5", provider: "moonshot", color: "#8b5cf6" },
+  { name: "GLM-4.6V-Flash", provider: "zhipu", color: "#ec4899" },
+  { name: "AutoGLM-Phone-9B-Multilingual", provider: "zhipu", color: "#ec4899" },
+];
+
+let activeModels = [];
+let zoomLevel = 1;
+let isPinned = false;
+let isDocked = false;
+let hasSentMessage = false;
+let currentSettingsModelIndex = 0;
+
+const SAMPLE_RESPONSES = {
+  "What is life": {
+    biological: `**Biological Perspective:**
+
+• **Definition:** Life is a characteristic of organisms that exhibit certain key traits, such as:
+  - Growth and development
+  - Reproduction
+  - Metabolism (converting energy to sustain functions)
+  - Response to stimuli
+  - Adaptation through evolution
+
+• **Examples:** Plants, animals, fungi, bacteria, and other organisms that meet these criteria are considered "alive."
+
+**Philosophical Perspective:**
+
+• Life can be seen as a **journey** filled with experiences, challenges, and growth. It's often described as meaningful when aligned with personal values, purpose, and connections to others.
+
+**Spiritual Perspective:**
+
+Many traditions view life as a gift or a sacred experience, emphasizing concepts like karma, destiny, or divine purpose.
+
+**In Simple Terms:**
+Life is the existence of an entity capable of growth, reaction, reproduction, and adaptation—not just for humans, it's also about experiencing joy, love, and learning.
+
+What aspect of life are you curious about? 🧬`,
+    thermodynamic: `**The Biological View**
+
+Most scientists define life by shared characteristics (often remembered by acronyms like MRS GREN):
+
+• **Metabolism** (converting energy)
+• **Reproduction** (making copies)
+• **Sensitivity** (responding to stimuli)
+• **Growth**
+• **Respiration** (energy released)
+• **Excretion** (waste removed)
+• **Nutrition**
+
+Even tiny things down at the edge—viruses replicate and evolve but lack metabolism. Prions propagate without DNA. Cytochrome grows but aren't alive. Life seems to exist on a spectrum rather than being a binary state.
+
+**The Thermodynamic Perspective**
+
+Physicists describe life as organized complexity fighting entropy. While the universe moves toward disorder—the Second Law of Thermodynamics—living things temporarily reverse this locally: maintaining complex structures by processing energy and exporting increased entropy into their environment. In this view, life is a self-sustaining chemical reaction that persists for ~4 billion years, unchanged since the first cell.
+
+**The Information View**
+
+Life may be more an *information* tool—capitalizing itself. DNA (or RNA) stores instructions to build the very machinery that reads and replicates those instructions—a strange loop of copying, sending, storing, and acting upon data to preserve future possibilities.
+
+**The Philosophical Dimension**
+
+Existentialists call life *psyche* (mind)—the capacity for self-reflection and growth. Modern existentialists might say life is *consciousness experiencing itself*. The subject questions "what it is like" to be conscious, afraid, delighted, or tortured. This calls us back from "what is life?" to "What does it mean to be alive?"—a question of purpose, connection, and subjective experience rather than bare biology.
+
+**The Uncomfortable Truth**
+
+We may be asking the wrong question. Perhaps "life" isn't a thing but a **process**—a dynamic pattern that persists through change. Like a whirlpool's a state. That you reading this is naturally different from the flow of water that once lived long before cells have been mutated, yet the patterns continue.
+
+Which aspect were you curious about—the science, the philosophy, or the personal search for meaning?`
+  },
+  "default": `That's a great question! Let me think about that...
+
+Here are some key points:
+
+• First, it's important to understand the fundamental principles involved
+• There are multiple perspectives to consider
+• Context matters significantly
+
+Would you like me to elaborate on any specific aspect? I'm here to help explore this topic further. 🔍`
+};
+
+// ============ INITIALIZATION ============
+function init() {
+  updateInputModelBar();
+  updateNewInputModelBar();
+  loadSettingsModels();
+  
+  // Listen for input changes
+  document.getElementById('chatInput').addEventListener('input', checkInput);
+  document.getElementById('newChatInput').addEventListener('input', checkInput);
+}
+
+function checkInput() {
+  const val = document.getElementById('chatInput').value.trim() || 
+              document.getElementById('newChatInput').value.trim();
+  document.getElementById('sendBtn').disabled = !val;
+}
+
+function autoResize(textarea) {
+  textarea.style.height = 'auto';
+  textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+}
+
+function handleInputKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const input = e.target;
+    const msg = input.value.trim();
+    if (msg) sendMessage();
+  }
+}
+
+// ============ MODEL CHIPS ============
+function updateInputModelBar() {
+  const bar = document.getElementById('inputModelBar');
+  bar.innerHTML = '';
+  activeModels.forEach((model, idx) => {
+    const chip = document.createElement('div');
+    chip.className = 'model-chip';
+    chip.innerHTML = `
+      <div class="model-chip-icon" style="background:${model.color};color:white;font-size:9px;">${model.name[0]}</div>
+      <span>${model.name}</span>
+    `;
+    chip.onclick = () => openSettingsForModel(idx);
+    bar.appendChild(chip);
+  });
+}
+
+function updateNewInputModelBar() {
+  const bar = document.getElementById('newInputModelBar');
+  bar.innerHTML = '';
+  activeModels.forEach((model, idx) => {
+    const chip = document.createElement('div');
+    chip.className = 'model-chip';
+    chip.innerHTML = `
+      <div class="model-chip-icon" style="background:${model.color};color:white;font-size:9px;">${model.name[0]}</div>
+      <span>${model.name}</span>
+    `;
+    bar.appendChild(chip);
+  });
+}
+
+function openModelDropdown(chipEl, index) {
+  // If clicking existing chip, open settings
+  openSettingsForModel(index);
+}
+
+function openAddModelDropdown() {
+  const row = document.getElementById('modelChipsRow');
+  const dropdown = document.getElementById('modelDropdown');
+  dropdown.innerHTML = generateModelDropdownHTML(false);
+  dropdown.classList.add('visible');
+  
+  const rect = row.getBoundingClientRect();
+  dropdown.style.position = 'absolute';
+  dropdown.style.top = 'calc(100% + 8px)';
+  dropdown.style.left = '0';
+  
+  setTimeout(() => {
+    document.addEventListener('click', function handler(e) {
+      if (!row.contains(e.target)) {
+        dropdown.classList.remove('visible');
+        document.removeEventListener('click', handler);
+      }
+    });
+  }, 10);
+}
+
+function generateModelDropdownHTML(isAdd) {
+  let html = `<div class="dropdown-search">
+    <input type="text" placeholder="Search models..." oninput="filterDropdown(this)">
+  </div><div class="dropdown-list">`;
+  
+  if (isAdd) {
+    html += '<div class="dropdown-section-title">Trending</div>';
+  }
+  
+  MODELS.forEach(model => {
+    const alreadySelected = activeModels.includes(model.name);
+    html += `<div class="dropdown-item ${alreadySelected ? 'selected' : ''}" 
+                 onclick="${isAdd ? `addModel('${model.name}')` : ''}" 
+                 data-name="${model.name}">
+      <div class="dropdown-item-icon" style="background:${model.color}20;color:${model.color};">${model.name[0]}</div>
+      <span>${model.name}</span>
+    </div>`;
+  });
+  
+  html += '</div>';
+  return html;
+}
+
+function filterDropdown(input) {
+  const query = input.value.toLowerCase();
+  const items = input.closest('.dropdown-menu').querySelectorAll('.dropdown-item');
+  items.forEach(item => {
+    const name = item.dataset.name.toLowerCase();
+    item.style.display = name.includes(query) ? 'flex' : 'none';
+  });
+}
+
+function addModel(name) {
+  if (!activeModels.find(m => m.name === name)) {
+    const model = MODELS.find(m => m.name === name);
+    activeModels.push(model);
+    
+    // Add chip to welcome screen
+    const row = document.getElementById('modelChipsRow');
+    const addBtn = row.querySelector('.add-model-btn');
+    const chip = document.createElement('div');
+    chip.className = 'model-chip';
+    chip.innerHTML = `
+      <div class="model-chip-icon" style="background:${model.color};color:white;font-size:9px;">${name[0]}</div>
+      <span>${name}</span>
+      <div class="model-chip-remove" onclick="event.stopPropagation(); removeModelChip(this, '${name}')">×</div>
+    `;
+    chip.onclick = () => openSettingsForModel(activeModels.indexOf(model));
+    chip.style.animation = 'fadeIn 0.3s ease';
+    row.insertBefore(chip, addBtn);
+    
+    document.getElementById('modelDropdown').classList.remove('visible');
+    updateInputModelBar();
+    updateNewInputModelBar();
+  }
+}
+
+function removeModelChip(el, modelName) {
+  if (modelName) {
+    activeModels = activeModels.filter(m => m.name !== modelName);
+  } else {
+    // Find model by chip text
+    const chip = el.closest('.model-chip');
+    const name = chip.querySelector('span').textContent;
+    activeModels = activeModels.filter(m => m.name !== name);
+  }
+  
+  const chip = document.getElementById('modelChipsRow').querySelectorAll('.model-chip')[
+    document.getElementById('modelChipsRow').querySelectorAll('.model-chip').length - 1
+  ];
+  
+  // Rebuild chips
+  rebuildChips();
+  updateInputModelBar();
+  updateNewInputModelBar();
+}
+
+function rebuildChips() {
+  const row = document.getElementById('modelChipsRow');
+  const chips = row.querySelectorAll('.model-chip');
+  chips.forEach(c => c.remove());
+  
+  activeModels.forEach((model, idx) => {
+    const chip = document.createElement('div');
+    chip.className = 'model-chip';
+    chip.innerHTML = `
+      <div class="model-chip-icon" style="background:${model.color};color:white;font-size:9px;">${model.name[0]}</div>
+      <span>${model.name}</span>
+      <div class="model-chip-remove" onclick="event.stopPropagation(); removeModelChip(this, '${model.name}')">×</div>
+    `;
+    chip.onclick = () => openSettingsForModel(idx);
+    row.appendChild(chip);
+  });
+}
+
+// ============ SETTINGS MODAL ============
+function loadSettingsModels() {
+  const list = document.getElementById('settingsModelList');
+  list.innerHTML = '';
+  
+  const sortedModels = [...MODELS].sort((a, b) => {
+    const aIdx = activeModels.findIndex(m => m.name === a.name);
+    const bIdx = activeModels.findIndex(m => m.name === b.name);
+    if (aIdx >= 0 && bIdx >= 0) return aIdx - bIdx;
+    if (aIdx >= 0) return -1;
+    if (bIdx >= 0) return 1;
+    return 0;
+  });
+  
+  sortedModels.forEach((model, idx) => {
+    const item = document.createElement('div');
+    item.className = 'settings-model-item';
+    item.dataset.index = idx;
+    item.dataset.name = model.name;
+    item.innerHTML = `
+      <div class="settings-model-item-icon" style="background:${model.color}20;color:${model.color};">${model.name[0]}</div>
+      <span>${model.name}</span>
+    `;
+    item.onclick = () => selectSettingsModel(model, idx);
+    list.appendChild(item);
+  });
+}
+
+function filterSettingsModels() {
+  const query = document.getElementById('settingsSearch').value.toLowerCase();
+  const items = document.querySelectorAll('.settings-model-item');
+  items.forEach(item => {
+    const name = item.dataset.name.toLowerCase();
+    item.style.display = name.includes(query) ? 'flex' : 'none';
+  });
+}
+
+function selectSettingsModel(model, idx) {
+  document.querySelectorAll('.settings-model-item').forEach(i => i.classList.remove('selected'));
+  document.querySelector(`.settings-model-item[data-name="${model.name}"]`).classList.add('selected');
+  document.getElementById('inferenceProvider').dataset.model = model.name;
+}
+
+function openSettingsForModel(index) {
+  currentSettingsModelIndex = index;
+  document.getElementById('settingsModal').classList.add('visible');
+  
+  // Select the current model
+  if (index < activeModels.length) {
+    const model = activeModels[index];
+    selectSettingsModel(model, 0);
+  }
+}
+
+function removeFromChat() {
+  closeModal('settingsModal');
+  if (currentSettingsModelIndex < activeModels.length) {
+    activeModels.splice(currentSettingsModelIndex, 1);
+    rebuildChips();
+    updateInputModelBar();
+    updateNewInputModelBar();
+  }
+}
+
+function saveSettings() {
+  closeModal('settingsModal');
+}
+
+function toggleSetting(key) {
+  const toggleId = key === 'temp' ? 'tempToggle' : key === 'maxTokens' ? 'maxTokensToggle' : 'topPToggle';
+  const sliderRowId = key === 'temp' ? 'tempSliderRow' : key === 'maxTokens' ? 'maxTokensSliderRow' : 'topPSliderRow';
+  
+  const toggle = document.getElementById(toggleId);
+  const sliderRow = document.getElementById(sliderRowId);
+  
+  toggle.classList.toggle('active');
+  sliderRow.style.display = toggle.classList.contains('active') ? 'flex' : 'none';
+}
+
+function updateSliderValue(key) {
+  const sliderId = key === 'temp' ? 'tempSlider' : key === 'maxTokens' ? 'maxTokensSlider' : 'topPSlider';
+  const valueId = key === 'temp' ? 'tempValue' : key === 'maxTokens' ? 'maxTokensValue' : 'topPValue';
+  document.getElementById(valueId).textContent = document.getElementById(sliderId).value;
+}
+
+// ============ PERSONAS ============
+function openPersonas() {
+  document.getElementById('personasModal').classList.add('visible');
+}
+
+function selectPersona(card, name) {
+  document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+}
+
+function openPersonaEditor() {
+  document.getElementById('personasListView').style.display = 'none';
+  document.getElementById('personaEditor').classList.add('visible');
+}
+
+function closePersonaEditor() {
+  document.getElementById('personasListView').style.display = 'block';
+  document.getElementById('personaEditor').classList.remove('visible');
+}
+
+function savePersona() {
+  const name = document.getElementById('personaName').value || 'New Persona';
+  const desc = document.getElementById('personaDesc').value || 'A custom persona';
+  
+  const grid = document.getElementById('personasGrid');
+  const addCard = grid.querySelector('.add-persona-card');
+  
+  const card = document.createElement('div');
+  card.className = 'persona-card';
+  card.onclick = function() { selectPersona(this, name); };
+  card.innerHTML = `
+    <div class="persona-icon" style="background:rgba(99,102,241,0.15);color:#6366f1;">✨</div>
+    <div class="persona-name">${name}</div>
+    <div class="persona-desc">${desc}</div>
+  `;
+  
+  grid.insertBefore(card, addCard);
+  
+  // Reset editor
+  document.getElementById('personaName').value = '';
+  document.getElementById('personaDesc').value = '';
+  document.getElementById('personaInstructions').value = '';
+  
+  closePersonaEditor();
+}
+
+// ============ SEND MESSAGE ============
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  if (!message || activeModels.length === 0) return;
+  
+  input.value = '';
+  input.style.height = 'auto';
+  
+  // Hide welcome, show responses
+  document.getElementById('welcomeScreen').classList.add('hidden');
+  const container = document.getElementById('responseContainer');
+  container.classList.add('visible');
+  
+  document.getElementById('userMessage').textContent = message;
+  
+  // Create response panels
+  const grid = document.getElementById('responsesGrid');
+  grid.innerHTML = '';
+  
+  activeModels.forEach((model, idx) => {
+    const panel = createResponsePanel(model, message, idx);
+    grid.appendChild(panel);
+    
+    // Simulate response generation
+    simulateResponse(panel, message, idx);
+  });
+  
+  // Show new input
+  setTimeout(() => {
+    document.getElementById('newInputBar').classList.add('visible');
+  }, 500);
+  
+  hasSentMessage = true;
+}
+
+function createResponsePanel(model, message, idx) {
+  const panel = document.createElement('div');
+  panel.className = 'response-panel';
+  panel.id = `panel-${idx}`;
+  
+  panel.innerHTML = `
+    <div class="panel-header">
+      <div class="panel-model-name">
+        <div class="model-chip-icon" style="background:${model.color};color:white;width:14px;height:14px;border-radius:3px;font-size:8px;display:inline-flex;align-items:center;justify-content:center;">${model.name[0]}</div>
+        ${model.name}
+      </div>
+      <div class="panel-actions">
+        <button class="panel-action-btn" onclick="copyResponse(${idx})" title="Copy">📋</button>
+        <button class="panel-action-btn" onclick="regenerateResponse(${idx})" title="Regenerate">↻</button>
+      </div>
+    </div>
+    <div class="panel-body" id="panelBody-${idx}">
+      <div class="loading-dots">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
+    <div class="panel-footer" id="panelFooter-${idx}">
+      <span>Generating...</span>
+    </div>
+  `;
+  
+  return panel;
+}
+
+function simulateResponse(panel, message, idx) {
+  const body = document.getElementById(`panelBody-${idx}`);
+  const footer = document.getElementById(`panelFooter-${idx}`);
+  const model = activeModels[idx];
+  
+  // Determine response content
+  let responseText = SAMPLE_RESPONSES[message] ? 
+    (idx % 2 === 0 ? SAMPLE_RESPONSES[message].biological : SAMPLE_RESPONSES[message].thermodynamic) : 
+    SAMPLE_RESPONSES['default'];
+  
+  // Typewriter effect
+  const words = responseText.split(' ');
+  let i = 0;
+  let accumulated = '';
+  
+  function typeChar() {
+    if (i < words.length) {
+      accumulated += (accumulated ? ' ' : '') + words[i];
+      body.innerHTML = renderMarkdown(accumulated);
+      i++;
+      const delay = Math.random() * 15 + 5;
+      setTimeout(typeChar, delay);
+    } else {
+      body.innerHTML = renderMarkdown(responseText);
+      footer.innerHTML = `<span>${words.length} words • Latency ${(Math.random() * 2000 + 500).toFixed(0)}ms</span>
+        <span style="color:var(--accent-blue);">Using ${model.provider} provider</span>`;
+    }
+  }
+  
+  setTimeout(typeChar, 800 + idx * 300);
+}
+
+function regenerateResponse(idx) {
+  const body = document.getElementById(`panelBody-${idx}`);
+  const footer = document.getElementById(`panelFooter-${idx}`);
+  body.innerHTML = `<div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div>`;
+  footer.innerHTML = '<span>Regenerating...</span>';
+  
+  const message = document.getElementById('userMessage').textContent;
+  simulateResponse(document.getElementById(`panel-${idx}`), message, idx);
+}
+
+function copyResponse(idx) {
+  const body = document.getElementById(`panelBody-${idx}`);
+  navigator.clipboard.writeText(body.innerText).then(() => {
+    const btn = body.closest('.response-panel').querySelector('.panel-action-btn');
+    const orig = btn.textContent;
+    btn.textContent = '✓';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+
+// ============ MARKDOWN RENDERER ============
+function renderMarkdown(text) {
+  let html = text;
+  
+  // Bold
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // Headers
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  
+  // Lists
+  html = html.replace(/^[•●]\s(.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+  
+  // Numbered lists
+  html = html.replace(/^\d+\.\s(.+)$/gm, '<li>$1</li>');
+  
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  
+  // Line breaks
+  html = html.replace(/\n/g, '<br>');
+  
+  return html;
+}
+
+// ============ NEW INPUT ============
+function sendMessageFromNewInput() {
+  const input = document.getElementById('newChatInput');
+  const message = input.value.trim();
+  if (!message) return;
+  
+  input.value = '';
+  input.style.height = 'auto';
+  
+  appendFollowUp(message);
+}
+
+function appendFollowUp(message) {
+  const grid = document.getElementById('responsesGrid');
+  
+  // User message bubble
+  const userBubble = document.createElement('div');
+  userBubble.className = 'user-message';
+  userBubble.style.gridColumn = '1 / -1';
+  userBubble.textContent = message;
+  grid.appendChild(userBubble);
+  
+  // New response panels
+  activeModels.forEach((model, idx) => {
+    const panel = createResponsePanel(model, message, idx);
+    grid.appendChild(panel);
+    simulateResponse(panel, message, idx);
+  });
+  
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+// ============ UTILITIES ============
+function useSuggestion(el) {
+  document.getElementById('chatInput').value = el.textContent;
+  document.getElementById('chatInput').focus();
+  checkInput();
+}
+
+function newConversation() {
+  // Reset everything
+  document.getElementById('welcomeScreen').classList.remove('hidden');
+  document.getElementById('responseContainer').classList.remove('visible');
+  document.getElementById('newInputBar').classList.remove('visible');
+  document.getElementById('chatInput').value = '';
+  document.getElementById('newChatInput').value = '';
+  document.getElementById('responsesGrid').innerHTML = '';
+  hasSentMessage = false;
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function downloadChat() {
+  const content = document.getElementById('mainContent').innerText;
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'playground-chat.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ============ MODALS ============
+function closeModal(id) {
+  document.getElementById(id).classList.remove('visible');
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('visible');
+    }
+  });
+});
+
+// ============ ZOOM CONTROLS ============
+function changeZoom(delta) {
+  zoomLevel = Math.max(0.3, Math.min(2, zoomLevel + delta));
+  applyZoom();
+}
+
+function resetZoom() {
+  zoomLevel = 1;
+  applyZoom();
+}
+
+function applyZoom() {
+  document.getElementById('canvasInner').style.transform = `scale(${zoomLevel})`;
+  document.getElementById('zoomValue').textContent = Math.round(zoomLevel * 100) + '%';
+}
+
+function togglePin() {
+  isPinned = !isPinned;
+  document.getElementById('pinBtn').classList.toggle('active', isPinned);
+  
+  if (isPinned) {
+    document.getElementById('mainContent').style.position = 'fixed';
+    document.getElementById('mainContent').style.top = '48px';
+    document.getElementById('mainContent').style.left = '0';
+    document.getElementById('mainContent').style.right = '0';
+    document.getElementById('mainContent').style.bottom = '48px';
+    document.getElementById('mainContent').style.overflow = 'auto';
+    document.getElementById('mainContent').style.padding = '20px';
+    document.getElementById('canvasContainer').style.pointerEvents = 'none';
+  } else {
+    document.getElementById('mainContent').style.position = '';
+    document.getElementById('mainContent').style.top = '';
+    document.getElementById('mainContent').style.left = '';
+    document.getElementById('mainContent').style.right = '';
+    document.getElementById('mainContent').style.bottom = '';
+    document.getElementById('mainContent').style.overflow = '';
+    document.getElementById('mainContent').style.padding = '';
+    document.getElementById('canvasContainer').style.pointerEvents = '';
+  }
+}
+
+function toggleDock() {
+  isDocked = !isDocked;
+  const preview = document.getElementById('dockPreview');
+  
+  if (isDocked) {
+    preview.classList.add('visible');
+    document.getElementById('mainContent').style.width = '60%';
+    document.getElementById('mainContent').style.marginLeft = '20%';
+  } else {
+    preview.classList.remove('visible');
+    document.getElementById('mainContent').style.width = '';
+    document.getElementById('mainContent').style.marginLeft = '';
+  }
+}
+
+// ============ KEYBOARD SHORTCUTS ============
+document.addEventListener('keydown', function(e) {
+  // Escape to close modals
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.visible').forEach(m => m.classList.remove('visible'));
+    document.getElementById('modelDropdown').classList.remove('visible');
+  }
+  
+  // Ctrl+/ for zoom
+  if (e.ctrlKey && e.key === '=') {
+    e.preventDefault();
+    changeZoom(0.1);
+  }
+  if (e.ctrlKey && e.key === '-') {
+    e.preventDefault();
+    changeZoom(-0.1);
+  }
+  if (e.ctrlKey && e.key === '0') {
+    e.preventDefault();
+    resetZoom();
+  }
+});
+
+// ============ START ============
+init();
+</script>
+</body>
+</html>
+

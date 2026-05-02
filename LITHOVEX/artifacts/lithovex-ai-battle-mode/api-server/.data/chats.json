@@ -1,0 +1,358 @@
+[
+  {
+    "id": "60a0dace-0848-4293-996e-86f3d5e98e5e",
+    "title": "hi",
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "user",
+        "content": "hi"
+      }
+    ],
+    "createdAt": "2026-05-01T05:57:11.112Z",
+    "updatedAt": "2026-05-01T05:57:17.599Z"
+  },
+  {
+    "id": "852735ea-0232-428c-9d33-6799391d5a2e",
+    "title": "how to make a cake answer in short",
+    "messages": [
+      {
+        "role": "user",
+        "content": "how to make a cake answer in short"
+      },
+      {
+        "role": "assistant",
+        "content": "\n\n# How to Make a Simple Cake (Short)\n\n**Ingredients:**\n- 1 ½ cups flour\n- 1 cup sugar\n- ½ cup butter (softened)\n- 2 eggs\n- 1 tsp baking powder\n- ½ cup milk\n- 1 tsp vanilla extract\n\n**Steps:**\n1. **Mix dry:** Flour + baking powder\n2. **Cream:** Butter + sugar until fluffy\n3. **Add:** Eggs + vanilla to butter mixture\n4. **Combine:** Alternate adding dry mix and milk\n5. **Bake:** Pour into greased pan, bake at 350°F (175°C) for 30-35 min\n6. **Cool:** Let rest 10 min, then flip onto plate\n\n✅ **Test:** Toothpick comes out clean = done!\n\n**Next steps:** Frost with buttercream or serve plain. Want a specific flavor (chocolate, vanilla, red velvet)?"
+      }
+    ],
+    "createdAt": "2026-05-01T09:03:14.964Z",
+    "updatedAt": "2026-05-01T09:03:29.908Z"
+  },
+  {
+    "id": "4934120a-bae0-4378-b989-c0e833412d8e",
+    "title": "hi what model are you?",
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi what model are you?"
+      },
+      {
+        "role": "assistant",
+        "content": "I am OpenAI GPT-5.5 (xHigh / Codex) running on LITHOVEX AI. I'm best at elite multi-step coding, deep research synthesis, and agentic engineering workflows."
+      },
+      {
+        "role": "user",
+        "content": "hi what model are you?"
+      },
+      {
+        "role": "assistant",
+        "content": "I am LITHOVEX 2.6 Plus running on LITHOVEX AI. I'm best at everything — the LITHOVEX flagship for deep reasoning, code, writing, research, strategy, math, science, planning, creative work, and everyday questions, adapting tone to whatever the task needs."
+      }
+    ],
+    "createdAt": "2026-05-01T09:46:27.860Z",
+    "updatedAt": "2026-05-01T09:46:38.345Z"
+  },
+  {
+    "id": "05f89734-1761-41bd-b108-a23ae8b6e1b0",
+    "title": "I cannot sleep can you help me sleep?",
+    "messages": [
+      {
+        "role": "user",
+        "content": "I cannot sleep can you help me sleep?"
+      }
+    ],
+    "createdAt": "2026-05-01T12:46:19.642Z",
+    "updatedAt": "2026-05-01T12:46:19.739Z"
+  },
+  {
+    "id": "62ed9f72-5124-43b0-ac83-539a8cc4ea3c",
+    "title": "I cannot sleep can you help me sleep?",
+    "messages": [
+      {
+        "role": "user",
+        "content": "I cannot sleep can you help me sleep?"
+      },
+      {
+        "role": "assistant",
+        "content": "\n\nHaving trouble sleeping is common. Here's what actually works:\n\n**1. Reduce stimulation 2+ hours before bed**\n- No screens (blue light suppresses melatonin)\n- Dim the lights\n- Avoid caffeine after 2pm\n\n**2. Cool your environment**\n- Keep the room at 65–68°F (18–20°C)\n- A slightly cold room helps your body's natural temp drop overnight\n\n**3. Use the 4-7-8 breathing technique**\n- Inhale through nose for 4 seconds\n- Hold for 7 seconds\n- Exhale through mouth for 8 seconds\n- Repeat 3–4 times\n\n**4. Get out of bed if awake >20 mins**\n- Go to a different room\n- Do something boring (read a manual, not a thriller)\n- Return to bed when drowsy\n\n**5. Maintain a consistent schedule**\n- Same wake-up time daily (even weekends)\n- Helps regulate your circadian rhythm\n\n**What to avoid:**\n- Alcohol (it fragments sleep, even if you fall asleep fast)\n- Large meals late\n- Napping after 3pm\n\nIf this persists >3 weeks, consider talking to a doctor — there may be an underlying issue (sleep apnea, anxiety, etc.) worth checking.\n\nTry a few of these tonight and see what sticks."
+      }
+    ],
+    "createdAt": "2026-05-01T12:46:39.877Z",
+    "updatedAt": "2026-05-01T12:46:51.347Z"
+  },
+  {
+    "id": "b0390f80-1f7c-4e7c-bf0c-951cfe781829",
+    "title": "what AI model are you?",
+    "messages": [
+      {
+        "role": "user",
+        "content": "what AI model are you?"
+      },
+      {
+        "role": "assistant",
+        "content": "\n\nI am **Moonshot AI Kimi K2.6 (Agentic)** running on **LITHOVEX AI**. My strengths are agentic coding, complex tool-use orchestration, and MoE-efficient specialized reasoning."
+      },
+      {
+        "role": "user",
+        "content": "What model are you"
+      },
+      {
+        "role": "assistant",
+        "content": "I am LITHOVEX 2.5 Core running on LITHOVEX AI. I'm best at everything — surgical code generation, debugging, refactoring, software architecture, performance, security review, API/DB design, testing, DevOps, and flagship-tier reasoning across writing, research, math, and everyday questions."
+      }
+    ],
+    "createdAt": "2026-05-01T12:52:10.291Z",
+    "updatedAt": "2026-05-01T13:51:57.150Z"
+  },
+  {
+    "id": "0e3a5bda-85d1-42ff-9fe0-a42d762901f2",
+    "title": "Generate a complete, production-ready code ex",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a complete, production-ready code example for me."
+      },
+      {
+        "role": "assistant",
+        "content": "\n\nI'd be happy to generate a production-ready code example for you! To give you exactly what you need, I have a couple of quick questions:\n\n1. **What language or stack?** (TypeScript, Python, Rust, Go, etc.)\n2. **What should the code do?** (e.g., an API endpoint, a UI component, a utility function, a database schema, a CLI tool, something with AI, etc.)\n\nOnce you tell me the domain or a feature you have in mind, I'll scan the LITHOVEX codebase first to match existing patterns, then deliver a complete, type-safe, error-handled implementation."
+      }
+    ],
+    "createdAt": "2026-05-01T13:55:02.500Z",
+    "updatedAt": "2026-05-01T13:55:17.287Z"
+  },
+  {
+    "id": "0cc5665d-ceb3-4108-85b5-a0aec77cf6c5",
+    "title": "Give me a unique and detailed business idea w",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Give me a unique and detailed business idea with a plan."
+      },
+      {
+        "role": "assistant",
+        "content": "_⏹ Stopped by user_"
+      }
+    ],
+    "createdAt": "2026-05-01T16:29:53.065Z",
+    "updatedAt": "2026-05-01T16:30:03.630Z"
+  },
+  {
+    "id": "5fe2ce32-caa4-4e2e-a53b-58629fe85860",
+    "title": "i cant sleep",
+    "messages": [
+      {
+        "role": "user",
+        "content": "i cant sleep"
+      },
+      {
+        "role": "assistant",
+        "content": "If you're lying there unable to sleep, the worst thing you can do is keep fighting it. That just wires your brain more. Let's do something that actually nudges your body toward sleep instead of forcing it.\n\n**First — reset your body (takes 2 minutes)**\n\nTry this breathing pattern (it sounds simple, but it works if you actually follow it):\n\n- Inhale through your nose for **4 seconds**\n- Hold for **4 seconds**\n- Exhale slowly through your mouth for **6–8 seconds**\n- Repeat 10–15 times\n\nFocus only on counting. If your mind drifts, bring it back to the numbers.\n\n---\n\n**Now — quiet your brain (this is the real problem)**\n\nMost insomnia isn't about your body, it's your thoughts looping. So don't try to \"stop thinking\"—replace it.\n\nTry this:\n\nPick a random category (cars, cities, foods, game names)\nGo through the alphabet slowly\n- A → Audi\n- B → BMW\n- C → Chevrolet\n\nDon't rush. Make it boring.\n\nYour brain falls asleep when it's mildly engaged but not stimulated.\n\n---\n\n**If you're still awake after ~15–20 min**\n\nGet out of bed. Yeah, seriously.\n\n- Sit somewhere dim\n- No phone, no bright light\n- Do something boring (read something dull, not exciting)\n\nGoing back and forth trains your brain: bed = sleep, not frustration.\n\n---\n\n**Quick fixes that actually matter tonight**\n- Keep your room slightly cool\n- Turn off harsh lights\n- Don't check the time constantly (that makes it worse)\n- Avoid scrolling — that's basically sleep poison\n\n---\n\n**One more trick (surprisingly powerful)**\n\nTense your whole body for 5 seconds → release\nStart from your toes and move upward\n\nThis relaxes your nervous system physically, not just mentally.\n\n---\n\nIf none of this is working, tell me:\n\n- Are you overthinking?\n- Stressed?\n- Or just not sleepy at all?\n\nI'll adjust this specifically for you."
+      }
+    ],
+    "createdAt": "2026-05-01T16:49:37.956Z",
+    "updatedAt": "2026-05-01T16:49:38.340Z"
+  },
+  {
+    "id": "9d108aba-09c4-4742-b57b-6ef636dbf785",
+    "title": "Generate a complete, production-ready code ex",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a complete, production-ready code example for me."
+      },
+      {
+        "role": "assistant",
+        "content": "_⏹ Stopped by user_"
+      }
+    ],
+    "createdAt": "2026-05-01T17:11:26.628Z",
+    "updatedAt": "2026-05-01T17:11:35.331Z"
+  },
+  {
+    "id": "5b80ab33-b446-4c15-81dc-e46c4267f343",
+    "title": "Give me a unique and detailed business idea w",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Give me a unique and detailed business idea with a plan."
+      },
+      {
+        "role": "assistant",
+        "content": "_⏹ Stopped by user_"
+      }
+    ],
+    "createdAt": "2026-05-01T17:11:39.285Z",
+    "updatedAt": "2026-05-01T17:11:47.004Z"
+  },
+  {
+    "id": "e32a1986-dfdd-41eb-bb3f-7a9cd37916e6",
+    "title": "Build a modern, responsive website for me fro",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Build a modern, responsive website for me from scratch."
+      },
+      {
+        "role": "assistant",
+        "content": "_⏹ Stopped by user_"
+      }
+    ],
+    "createdAt": "2026-05-01T17:11:51.166Z",
+    "updatedAt": "2026-05-01T17:12:03.179Z"
+  },
+  {
+    "id": "a4e47a81-9d08-4a28-8c0d-f1dbd93e3165",
+    "title": "Create beautiful, reusable UI components with",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Create beautiful, reusable UI components with Tailwind CSS."
+      },
+      {
+        "role": "assistant",
+        "content": "_⏹ Stopped by user_"
+      }
+    ],
+    "createdAt": "2026-05-01T17:12:09.918Z",
+    "updatedAt": "2026-05-01T17:12:32.735Z"
+  },
+  {
+    "id": "82140baa-6e61-4394-b364-49c7647d4b6b",
+    "title": "Design and code a stunning landing page from ",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Design and code a stunning landing page from scratch."
+      },
+      {
+        "role": "assistant",
+        "content": "_⏹ Stopped by user_"
+      }
+    ],
+    "createdAt": "2026-05-01T17:12:34.039Z",
+    "updatedAt": "2026-05-01T17:12:41.766Z"
+  },
+  {
+    "id": "ebec7e92-2bf4-4225-a2b5-5412492c624e",
+    "title": "I'd like to upload a document for you to anal",
+    "messages": [
+      {
+        "role": "user",
+        "content": "I'd like to upload a document for you to analyse."
+      },
+      {
+        "role": "assistant",
+        "content": "_⏹ Stopped by user_"
+      }
+    ],
+    "createdAt": "2026-05-01T17:12:46.110Z",
+    "updatedAt": "2026-05-01T17:12:53.505Z"
+  },
+  {
+    "id": "5015a95b-f4dd-47c0-95df-98b95b04e1d6",
+    "title": "I'd like to upload a document for you to anal",
+    "messages": [
+      {
+        "role": "user",
+        "content": "I'd like to upload a document for you to analyse."
+      },
+      {
+        "role": "assistant",
+        "content": "\n\nI don't have direct file upload capability in this chat interface. How would you like to share the document?\n\nOptions:\n\n1. **Paste the text directly** — if it's text content, just paste it here\n2. **Provide a URL** — link to a GitHub repo, Google Doc, or publicly accessible file\n3. **Describe what you have** — tell me the document type and what analysis you need, and we can work from there\n\nWhat's the document, and what kind of analysis are you looking for?"
+      }
+    ],
+    "createdAt": "2026-05-01T17:13:23.103Z",
+    "updatedAt": "2026-05-01T17:13:34.375Z"
+  },
+  {
+    "id": "a92a1dc0-f401-4d0f-abcb-3d911f105151",
+    "title": "hi",
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "assistant",
+        "content": "_⏹ Stopped by user_"
+      },
+      {
+        "role": "user",
+        "content": "I cant sleep"
+      },
+      {
+        "role": "assistant",
+        "content": "If you're lying there unable to sleep, the worst thing you can do is keep fighting it. That just wires your brain more. Let's do something that actually nudges your body toward sleep instead of forcing it.\n\n**First — reset your body (takes 2 minutes)**\n\nTry this breathing pattern (it sounds simple, but it works if you actually follow it):\n\n- Inhale through your nose for **4 seconds**\n- Hold for **4 seconds**\n- Exhale slowly through your mouth for **6–8 seconds**\n- Repeat 10–15 times\n\nFocus only on counting. If your mind drifts, bring it back to the numbers.\n\n---\n\n**Now — quiet your brain (this is the real problem)**\n\nMost insomnia isn't about your body, it's your thoughts looping. So don't try to \"stop thinking\"—replace it.\n\nTry this:\n\nPick a random category (cars, cities, foods, game names)\nGo through the alphabet slowly\n- A → Audi\n- B → BMW\n- C → Chevrolet\n\nDon't rush. Make it boring.\n\nYour brain falls asleep when it's mildly engaged but not stimulated.\n\n---\n\n**If you're still awake after ~15–20 min**\n\nGet out of bed. Yeah, seriously.\n\n- Sit somewhere dim\n- No phone, no bright light\n- Do something boring (read something dull, not exciting)\n\nGoing back and forth trains your brain: bed = sleep, not frustration.\n\n---\n\n**Quick fixes that actually matter tonight**\n- Keep your room slightly cool\n- Turn off harsh lights\n- Don't check the time constantly (that makes it worse)\n- Avoid scrolling — that's basically sleep poison\n\n---\n\n**One more trick (surprisingly powerful)**\n\nTense your whole body for 5 seconds → release\nStart from your toes and move upward\n\nThis relaxes your nervous system physically, not just mentally.\n\n---\n\nIf none of this is working, tell me:\n\n- Are you overthinking?\n- Stressed?\n- Or just not sleepy at all?\n\nI'll adjust this specifically for you."
+      },
+      {
+        "role": "user",
+        "content": "what model are you?"
+      },
+      {
+        "role": "assistant",
+        "content": "I am LITHOVEX 2.5 Core running on LITHOVEX AI. I'm best at everything — surgical code generation, debugging, refactoring, software architecture, performance, security review, API/DB design, testing, DevOps, and flagship-tier reasoning across writing, research, math, and everyday questions."
+      },
+      {
+        "role": "user",
+        "content": "who are you?"
+      },
+      {
+        "role": "assistant",
+        "content": "I am Qwen Qwen3 48B Instruct 2507 running on LITHOVEX AI. I'm best at general-purpose conversational reasoning and instruction following."
+      },
+      {
+        "role": "user",
+        "content": "Can you help me study or prepare for exams?"
+      }
+    ],
+    "createdAt": "2026-05-01T17:31:11.832Z",
+    "updatedAt": "2026-05-01T17:53:23.529Z"
+  },
+  {
+    "id": "4cad17b7-4be0-488b-be5a-8a5470a0c42f",
+    "title": "Can you help me study or prepare for exams?",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Can you help me study or prepare for exams?"
+      }
+    ],
+    "createdAt": "2026-05-01T17:54:18.315Z",
+    "updatedAt": "2026-05-01T17:54:19.110Z"
+  },
+  {
+    "id": "248133f3-9783-4c7f-8b45-4335769ee42d",
+    "title": "Create beautiful, reusable UI components with",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Create beautiful, reusable UI components with Tailwind CSS."
+      },
+      {
+        "role": "assistant",
+        "content": "Now we're talking 😎 — Tailwind + reusable components = chef's kiss 🧑‍🍳✨\n\nLet's build a small component system you can actually reuse across projects.\n\n**⚡ Setup (quick & painless)**\n\n```html\n<script src=\"https://cdn.tailwindcss.com\"></script>\n```\n\n---\n\n**🧱 1. Buttons**\n\n```html\n<!-- Primary -->\n<button class=\"px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold shadow-md hover:bg-indigo-700 hover:scale-105 transition\">\n  🚀 Get Started\n</button>\n\n<!-- Secondary -->\n<button class=\"px-6 py-3 border border-indigo-600 text-indigo-600 rounded-xl font-semibold hover:bg-indigo-50 transition\">\n  🤓 Learn More\n</button>\n\n<!-- Danger -->\n<button class=\"px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition\">\n  🔥 Delete\n</button>\n```\n\n---\n\n**🧊 2. Card Component**\n\n```html\n<div class=\"bg-white/70 backdrop-blur-lg rounded-2xl shadow-lg p-6 max-w-sm hover:shadow-xl transition\">\n  <h2 class=\"text-xl font-bold mb-2\">✨ Fancy Card</h2>\n  <p class=\"text-gray-600 mb-4\">This card looks expensive but costs $0 😌</p>\n  <button class=\"px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition\">\n    Explore 🚀\n  </button>\n</div>\n```\n\n---\n\n**🧾 3. Input Field**\n\n```html\n<div class=\"space-y-2\">\n  <label class=\"text-sm font-medium text-gray-700\">Email 📧</label>\n  <input type=\"email\" placeholder=\"you@example.com\"\n    class=\"w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none\"/>\n</div>\n```\n\n---\n\n**🧑‍💻 4. Navbar**\n\n```html\n<nav class=\"flex items-center justify-between px-8 py-4 bg-white shadow-md\">\n  <h1 class=\"text-xl font-bold\">🔥 Brand</h1>\n  <div class=\"space-x-6 hidden md:block\">\n    <a href=\"#\" class=\"hover:text-indigo-600\">Home</a>\n    <a href=\"#\" class=\"hover:text-indigo-600\">Features</a>\n    <a href=\"#\" class=\"hover:text-indigo-600\">Pricing</a>\n  </div>\n  <button class=\"px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition\">\n    Sign Up 🚀\n  </button>\n</nav>\n```\n\n---\n\n**🎯 5. Badges**\n\n```html\n<span class=\"px-3 py-1 text-sm bg-green-100 text-green-700 rounded-full\">✅ Active</span>\n<span class=\"px-3 py-1 text-sm bg-yellow-100 text-yellow-700 rounded-full\">⚡ Pending</span>\n```\n\n---\n\n**🧠 Pro Tip — Reusable utility classes**\n\n```html\n<style>\n  .btn { @apply px-6 py-3 rounded-xl font-semibold transition; }\n  .btn-primary { @apply bg-indigo-600 text-white hover:bg-indigo-700; }\n</style>\n\n<button class=\"btn btn-primary\">🚀 Magic</button>\n```\n\n---\n\n**🚀 Want next level?**\n\nI can:\n- Turn this into a real design system (like shadcn/ui)\n- Convert to React components ⚛️\n- Add animations with Framer Motion 🎬\n- Build a full dashboard UI kit 📊\n\nJust tell me what vibe you want 😏"
+      }
+    ],
+    "createdAt": "2026-05-01T17:54:35.181Z",
+    "updatedAt": "2026-05-01T17:54:35.777Z"
+  },
+  {
+    "id": "b4990347-fa2b-4194-b4b5-9da984d2c41c",
+    "title": "Give me a unique and detailed business idea w",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Give me a unique and detailed business idea with a plan."
+      },
+      {
+        "role": "assistant",
+        "content": "Alright — here's a fresh, actually-buildable business idea (not the usual \"AI app\" fluff) with a clear plan you could execute step by step 😏\n\n---\n\n**🌱 Business Idea: \"Rent-a-Garden\" (Urban Micro-Farming Platform)**\n\n**💡 Concept**\n\nA platform that lets city people rent small farming plots and get:\n- Fresh vegetables 🥬\n- Farming experience 🌾\n- Optional passive income 💰\n\nThink of it as: 👉 **Airbnb + farming + subscription service**\n\n---\n\n**🎯 The Problem**\n\nUrban people want fresh, organic food but can't trust markets. Many want to \"grow their own food\" but have:\n- No land ❌\n- No time ❌\n- No knowledge ❌\n\nMeanwhile: rural farmers have unused land with low profit margins.\n\n---\n\n**🚀 The Solution**\n\nUsers can:\n- Rent a small plot of land (e.g., 10×10 ft) 🌱\n- Choose what to grow 🥕🍅\n- Manage it remotely (photos, livestream 👀) or let farmers manage it\n- Get produce delivered home 🚚\n\n---\n\n**🧠 Business Model**\n\n💵 Revenue Streams:\n- **Subscriptions** — Basic: monthly veggies delivery | Premium: custom crops + live tracking 🎥\n- **Commission** — Take 15–30% from produce sales\n- **Add-ons** — Farm visit experiences 🌿, organic certification, gift packages 🎁\n\n---\n\n**🏗️ MVP Plan (Start Small, Smart)**\n\n**Phase 1 — Validation (2–4 weeks)**\n- Partner with 1–2 local farmers\n- Offer 20–50 plots via WhatsApp + simple website\n- Test demand: \"Get your own farm for $10/month\"\n- Goal: prove people will pay\n\n**Phase 2 — Build Platform (1–2 months)**\n- User dashboard 👤, crop selection 🌱, growth tracking 📸, payment system 💳\n\n**Phase 3 — Scale Supply**\n- Onboard more farmers, standardize plot sizes, crop cycles, pricing\n\n**Phase 4 — Brand & Expansion**\n- Market as \"Your farm in the countryside\" 🌄\n- Expand to corporate gifting 🎁 and schools 🎓\n\n---\n\n**📣 Marketing (this is where you win)**\n\n🔥 Viral Hooks: \"I own a farm now 😎\" | Before/after crop videos 🌱➡️🥬 | Weekly harvest reels\n📱 Channels: TikTok/Reels, local influencers, health-conscious communities\n\n---\n\n**💸 Rough Numbers**\n- 100 users × $10/month = $1,000/month\n- Scale to 1,000 users → $10,000/month\n- Add upsells → much higher 📈\n\n---\n\n**💥 Why This Has Potential**\n\nCombines 3 hot trends: Organic food 🌱 + Experience economy 🎯 + Subscriptions 💳\n\nWorks especially well in 🇧🇩 Bangladesh, 🇮🇳 India, 🌏 Southeast Asia.\n\n---\n\n**🚀 Want next steps?**\n\nI can:\n- Turn this into a pitch deck 💼\n- Design the website/UI for this idea 🎨\n- Create a step-by-step launch plan for your location\n- Help you validate it with real customers\n\nJust tell me how serious you are about building this 😏"
+      }
+    ],
+    "createdAt": "2026-05-02T02:35:38.860Z",
+    "updatedAt": "2026-05-02T02:35:39.581Z"
+  }
+]

@@ -1,0 +1,759 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource/maple-mono/400.css";
+@import "@fontsource/maple-mono/500.css";
+@import "@fontsource/maple-mono/600.css";
+@import "@fontsource/maple-mono/700.css";
+@plugin "@tailwindcss/typography";
+
+/* ─── LITHOVEX — Tailwind v4 responsive safelist ────────────────────────────
+   Tailwind v4 detects classes via source scanning. The @source inline()
+   directive force-includes responsive-prefixed utilities so that any
+   sm:/md:/lg:/xl:/2xl: variants used dynamically (template strings, cn(),
+   conditional className composition) are never purged from the build.
+   ─────────────────────────────────────────────────────────────────────────── */
+@source inline("{,sm:,md:,lg:,xl:,2xl:}{block,inline-block,inline,flex,inline-flex,grid,inline-grid,hidden,table,flow-root,contents}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}{flex-row,flex-col,flex-row-reverse,flex-col-reverse,flex-wrap,flex-nowrap,flex-1,flex-auto,flex-initial,flex-none}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}items-{start,center,end,stretch,baseline}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}justify-{start,center,end,between,around,evenly}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}{text-left,text-center,text-right,text-justify}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl,6xl}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}{w,h,min-w,min-h,max-w,max-h}-{0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,36,40,44,48,52,56,60,64,72,80,96,auto,full,screen,fit,min,max}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}{p,px,py,pt,pr,pb,pl,m,mx,my,mt,mr,mb,ml}-{0,0.5,1,1.5,2,2.5,3,3.5,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,auto}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}gap-{0,0.5,1,1.5,2,2.5,3,3.5,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}grid-cols-{1,2,3,4,5,6,7,8,9,10,11,12,none}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}col-span-{1,2,3,4,5,6,7,8,9,10,11,12,full,auto}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}{rounded,rounded-sm,rounded-md,rounded-lg,rounded-xl,rounded-2xl,rounded-3xl,rounded-full,rounded-none}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}{static,fixed,absolute,relative,sticky}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}{overflow-auto,overflow-hidden,overflow-visible,overflow-scroll,overflow-x-auto,overflow-y-auto,overflow-x-hidden,overflow-y-hidden}");
+@source inline("{,sm:,md:,lg:,xl:,2xl:}{order-1,order-2,order-3,order-4,order-5,order-6,order-7,order-8,order-9,order-10,order-11,order-12,order-first,order-last,order-none}");
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-primary-border: var(--sidebar-primary-border);
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-accent-border: var(--sidebar-accent-border);
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
+  --opaque-button-border-intensity: -8;
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
+
+  --background: 0 0% 7%;
+  --foreground: 0 0% 88%;
+  --border: 0 0% 15%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 88%;
+  --card-border: 0 0% 15%;
+  --sidebar: 0 0% 10%;
+  --sidebar-foreground: 0 0% 88%;
+  --sidebar-border: 0 0% 12%;
+  --sidebar-primary: 265 74% 58%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 14%;
+  --sidebar-accent-foreground: 0 0% 88%;
+  --sidebar-ring: 265 74% 58%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 88%;
+  --popover-border: 0 0% 15%;
+  --primary: 265 74% 58%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 14%;
+  --secondary-foreground: 0 0% 88%;
+  --muted: 0 0% 14%;
+  --muted-foreground: 0 0% 47%;
+  --accent: 265 74% 58%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 0 0% 14%;
+  --ring: 265 74% 58%;
+  --chart-1: 265 74% 58%;
+  --chart-2: 0 0% 14%;
+  --chart-3: 0 0% 47%;
+  --chart-4: 0 0% 10%;
+  --chart-5: 0 0% 7%;
+
+  --app-font-sans: 'Maple Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  --app-font-serif: 'Maple Mono', Georgia, serif;
+  --app-font-mono: 'Maple Mono', 'Consolas', Monaco, monospace;
+  --radius: .75rem;
+  --shadow-2xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.2);
+  --shadow-xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.2);
+  --shadow-sm: 0px 2px 0px 0px hsl(0 0% 0% / 0.2), 0px 1px 2px -1px hsl(0 0% 0% / 0.2);
+  --shadow: 0px 2px 0px 0px hsl(0 0% 0% / 0.2), 0px 1px 2px -1px hsl(0 0% 0% / 0.2);
+  --shadow-md: 0px 2px 0px 0px hsl(0 0% 0% / 0.2), 0px 2px 4px -1px hsl(0 0% 0% / 0.2);
+  --shadow-lg: 0px 2px 0px 0px hsl(0 0% 0% / 0.2), 0px 4px 6px -1px hsl(0 0% 0% / 0.2);
+  --shadow-xl: 0px 2px 0px 0px hsl(0 0% 0% / 0.2), 0px 8px 10px -1px hsl(0 0% 0% / 0.2);
+  --shadow-2xl: 0px 2px 0px 0px hsl(0 0% 0% / 0.2);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+
+  --sidebar-primary-border: hsl(var(--sidebar-primary));
+  --sidebar-accent-border: hsl(var(--sidebar-accent));
+  --primary-border: hsl(var(--primary));
+  --secondary-border: hsl(var(--secondary));
+  --muted-border: hsl(var(--muted));
+  --accent-border: hsl(var(--accent));
+  --destructive-border: hsl(var(--destructive));
+
+  /* ─── LITHOVEX — Mobile foundation tokens ───────────────────────────────
+     Shared height for the bottom mobile nav. Components reference this via
+     var(--mobile-nav-height) so spacing, safe-area padding, and scroll
+     offsets stay in sync across the app.
+     ───────────────────────────────────────────────────────────────────── */
+  --mobile-nav-height: 56px;
+}
+
+.dark {
+  --button-outline: rgba(255,255,255, .10);
+  --badge-outline: rgba(255,255,255, .05);
+  --opaque-button-border-intensity: 9;
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .09);
+
+  --background: 0 0% 7%;
+  --foreground: 0 0% 88%;
+  --border: 0 0% 15%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 88%;
+  --card-border: 0 0% 15%;
+  --sidebar: 0 0% 10%;
+  --sidebar-foreground: 0 0% 88%;
+  --sidebar-border: 0 0% 12%;
+  --sidebar-primary: 265 74% 58%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 14%;
+  --sidebar-accent-foreground: 0 0% 88%;
+  --sidebar-ring: 265 74% 58%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 88%;
+  --popover-border: 0 0% 15%;
+  --primary: 265 74% 58%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 14%;
+  --secondary-foreground: 0 0% 88%;
+  --muted: 0 0% 14%;
+  --muted-foreground: 0 0% 47%;
+  --accent: 265 74% 58%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 0 0% 14%;
+  --ring: 265 74% 58%;
+}
+
+@keyframes glowPulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.25)); }
+  50% { filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.5)); }
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-3px); opacity: 1; }
+}
+
+@keyframes fadeInBlur {
+  from { opacity: 0; transform: translateY(14px); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.logo-glow { animation: glowPulse 4s ease-in-out infinite; }
+
+.typing-dot { animation: typingBounce 1.2s ease-in-out infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.18s; }
+.typing-dot:nth-child(3) { animation-delay: 0.36s; }
+
+.msg-fade-in { animation: fadeInBlur 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+/* === Thinking + Typewriter System === */
+@keyframes thinkPulse {
+  0%, 100% { transform: scale(0.8); background-color: rgba(168, 139, 250, 0.4); }
+  50%      { transform: scale(1.2); background-color: rgba(192, 132, 252, 1); }
+}
+@keyframes thinkShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes thinkBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+@keyframes thinkBubbleIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes thinkBubbleOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-4px); }
+}
+@keyframes pillFadeIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes msgRise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.think-bubble-in  { animation: thinkBubbleIn 0.35s ease-out forwards; }
+.think-bubble-out { animation: thinkBubbleOut 0.35s ease forwards; }
+
+.think-dot {
+  width: 6px; height: 6px; border-radius: 9999px;
+  display: inline-block;
+  animation: thinkPulse 1s ease-in-out infinite;
+}
+.think-dot:nth-child(1) { animation-delay: 0s; }
+.think-dot:nth-child(2) { animation-delay: 0.2s; }
+.think-dot:nth-child(3) { animation-delay: 0.4s; }
+
+.think-shimmer {
+  height: 8px; border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(168,139,250,0.18) 45%,
+    rgba(192,132,252,0.28) 50%,
+    rgba(168,139,250,0.18) 55%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: thinkShimmer 1.6s ease-in-out infinite;
+}
+
+.think-completed-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 9999px;
+  font-size: 11px; font-weight: 500;
+  color: rgb(74, 222, 128);
+  background-color: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  animation: pillFadeIn 0.3s ease-out forwards;
+}
+
+.msg-rise { animation: msgRise 0.35s ease-out forwards; }
+
+.tw-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background-color: rgb(192, 132, 252);
+  animation: thinkBlink 0.7s step-end infinite;
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+ *  Reasoning panel ("Thought for Xs") — replaces old shimmer ThinkingBubble
+ * ──────────────────────────────────────────────────────────────────────── */
+.reasoning-panel {
+  margin: 2px 0 14px;
+  padding: 0;
+}
+.reasoning-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  margin-left: -10px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(200, 200, 210, 0.78);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+.reasoning-header:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: rgba(230, 230, 240, 1);
+}
+.reasoning-header .brain {
+  width: 14px;
+  height: 14px;
+  color: rgba(168, 139, 250, 0.9);
+  flex-shrink: 0;
+}
+.reasoning-header .chev {
+  width: 11px;
+  height: 11px;
+  color: rgba(160, 160, 175, 0.6);
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reasoning-header[data-open="true"] .chev { transform: rotate(180deg); }
+.reasoning-label {
+  white-space: nowrap;
+}
+.reasoning-thinking-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(168, 139, 250, 0.95);
+  box-shadow: 0 0 8px rgba(168, 139, 250, 0.55);
+  animation: reasoningPulse 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes reasoningPulse {
+  0%, 100% { opacity: 0.45; transform: scale(0.85); }
+  50%      { opacity: 1;    transform: scale(1.05); }
+}
+.reasoning-body {
+  margin-top: 8px;
+  padding: 4px 0 4px 14px;
+  border-left: 2px solid rgba(168, 139, 250, 0.22);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: rgba(170, 172, 185, 0.82);
+}
+.reasoning-line {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateY(4px);
+  filter: blur(3px);
+  animation: reasoningLineIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.reasoning-line:last-child { margin-bottom: 2px; }
+.reasoning-line::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.65em;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: rgba(168, 139, 250, 0.55);
+}
+.reasoning-line-placeholder {
+  color: rgba(170, 172, 185, 0.55);
+  font-style: italic;
+}
+@keyframes reasoningLineIn {
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+ *  Word-reveal — replaces the old char-by-char typewriter. The container
+ *  fades from a soft blur to clear so the text "glides" in instead of
+ *  popping. The word-by-word reveal happens inside via state.
+ * ──────────────────────────────────────────────────────────────────────── */
+.word-reveal-streaming {
+  animation: wordRevealPulse 0.5s ease-out;
+}
+.word-reveal-done {
+  animation: wordRevealSettle 0.3s ease-out;
+}
+@keyframes wordRevealPulse {
+  from { filter: blur(2px); opacity: 0.7; }
+  to   { filter: blur(0);   opacity: 1; }
+}
+@keyframes wordRevealSettle {
+  from { opacity: 0.9; }
+  to   { opacity: 1; }
+}
+
+/* Soft bottom-edge mask so the freshest streaming content visually fades in
+ * as the text grows downward — the same effect ChatGPT/Claude use. */
+.streaming-mask {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) calc(100% - 28px),
+    rgba(0,0,0,0.35) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) calc(100% - 28px),
+    rgba(0,0,0,0.35) 100%
+  );
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.16); }
+
+/* Smooth, thin scrollbar for the chat-input model selector dropdown */
+.model-selector-scroll { scrollbar-width: thin; scrollbar-color: rgba(168,85,247,0.35) transparent; scroll-behavior: smooth; }
+.model-selector-scroll::-webkit-scrollbar { width: 6px; }
+.model-selector-scroll::-webkit-scrollbar-track { background: transparent; }
+.model-selector-scroll::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.30); border-radius: 999px; }
+.model-selector-scroll::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,0.55); }
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply font-sans antialiased bg-background text-foreground; }
+}
+
+@layer utilities {
+  input[type="search"]::-webkit-search-cancel-button { @apply hidden; }
+  [contenteditable][data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: hsl(var(--muted-foreground));
+    pointer-events: none;
+  }
+
+  .no-default-hover-elevate {}
+  .no-default-active-elevate {}
+
+  .toggle-elevate::before, .toggle-elevate-2::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: -1;
+  }
+
+  .toggle-elevate.toggle-elevated::before { background-color: var(--elevate-2); }
+  .border.toggle-elevate::before { inset: -1px; }
+
+  .hover-elevate:not(.no-default-hover-elevate),
+  .active-elevate:not(.no-default-active-elevate),
+  .hover-elevate-2:not(.no-default-hover-elevate),
+  .active-elevate-2:not(.no-default-active-elevate) {
+    position: relative;
+    z-index: 0;
+  }
+
+  .hover-elevate:not(.no-default-hover-elevate)::after,
+  .active-elevate:not(.no-default-active-elevate)::after,
+  .hover-elevate-2:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:not(.no-default-active-elevate)::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: 999;
+  }
+
+  .hover-elevate:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate:active:not(.no-default-active-elevate)::after { background-color: var(--elevate-1); }
+
+  .hover-elevate-2:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:active:not(.no-default-active-elevate)::after { background-color: var(--elevate-2); }
+
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate-2:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after { inset: -1px; }
+}
+
+/* ─── LITHOVEX — Custom range slider (Phase 4) ──────────────────────────────
+   The native <input type="range"> is invisible (opacity-0) and sits on top of
+   the custom track + thumb rendered in React. These rules ensure the clickable
+   area is correct and the browser thumb does not show through.
+   ─────────────────────────────────────────────────────────────────────────── */
+.lx-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lx-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.lx-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.lx-slider::-webkit-slider-runnable-track {
+  background: transparent;
+}
+
+.lx-slider::-moz-range-track {
+  background: transparent;
+}
+
+/* ─── LITHOVEX — Custom scrollbar utilities (Phase 5) ───────────────────────
+   Mimics the tailwind-scrollbar plugin without adding a dependency.
+   ─────────────────────────────────────────────────────────────────────────── */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(63 63 70) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgb(63 63 70);
+  border-radius: 9999px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(82 82 91);
+}
+
+/* ─── LITHOVEX — Mobile foundation (PROMPT 01) ──────────────────────────────
+   Global mobile-first rules: kill horizontal overflow, smooth iOS momentum
+   scrolling, remove tap highlight, enforce 44×44 touch targets, and provide
+   safe-area-inset support for fixed bottom UI. These rules are additive and
+   intentionally placed last so they layer cleanly on top of all earlier
+   styles without altering any existing declarations.
+   ─────────────────────────────────────────────────────────────────────────── */
+html,
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100vw;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* WCAG 2.5.5 / Apple HIG — minimum 44×44 touch target for interactive elements.
+   `min-width: 44px` is excluded for full-width inputs/textareas via the natural
+   layout, but `min-height` keeps every tap target finger-friendly. Hidden inputs
+   and inline anchors inside prose are excluded so they don't disturb text flow.
+   Small utility buttons (icon chips, filter tabs, inline controls) opt-out via
+   .no-min-touch so they don't get forced to 44px in dense UI areas. */
+button:not(.no-min-touch),
+a:not(.no-min-touch),
+input:not(.no-min-touch),
+textarea:not(.no-min-touch) {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+input[type="hidden"],
+input[type="checkbox"],
+input[type="radio"] {
+  min-height: 0;
+  min-width: 0;
+}
+
+.prose a,
+p a,
+li a,
+span a {
+  min-height: 0;
+  min-width: 0;
+  display: inline;
+}
+
+/* Safe-area-inset support — iOS notch / home indicator. Any element marked
+   .safe-bottom (or fixed-bottom UI like the mobile nav / chat input bar)
+   automatically reserves space for the home indicator. */
+.safe-bottom,
+[data-safe-bottom],
+.fixed-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-top,
+[data-safe-top] {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Belt-and-suspenders: prevent any descendant from forcing a horizontal
+   scroll at the 320px viewport floor (smallest supported mobile width). */
+@media (max-width: 320px) {
+  html,
+  body,
+  #root {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  img,
+  video,
+  canvas,
+  svg,
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ─── LITHOVEX — Mobile polish (PROMPT 10) ─────────────────────────────────
+   Final pass: iOS-specific font sizing on form fields (prevents auto-zoom
+   on focus when caret enters a <16px field), momentum scroll on every
+   scroll-axis utility class, overscroll containment for modal/sheet/drawer
+   surfaces (prevents iOS rubber-band bleeding into the body), and a
+   wider safe-area + horizontal-overflow guard.
+   These rules are additive and gated either by media query or by
+   class/role selectors so desktop output is byte-identical.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* iOS Safari auto-zooms any <input>/<textarea>/<select> whose computed
+   font-size is < 16px when it gains focus. Forcing 16px under the mobile
+   breakpoint kills that zoom across every form field in the app, including
+   ones rendered by 3rd-party Radix primitives. */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]),
+  textarea,
+  select,
+  [contenteditable="true"] {
+    font-size: 16px !important;
+  }
+}
+
+/* Smooth, momentum-style scrolling for every scroll container in the app —
+   matches native iOS feel anywhere overflow is enabled. Applied to both
+   tailwind utility classes and any inline `overflow:auto/scroll` styles. */
+.overflow-auto,
+.overflow-y-auto,
+.overflow-x-auto,
+.overflow-scroll,
+.overflow-y-scroll,
+.overflow-x-scroll,
+[style*="overflow:auto"],
+[style*="overflow-y:auto"],
+[style*="overflow:scroll"],
+[style*="overflow-y:scroll"] {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Modal / sheet / drawer surfaces — contain over-scroll so swipes inside
+   the panel don't propagate to the body and trigger iOS bounce. Also caps
+   panel height so they never exceed the visible viewport. Targets Radix
+   Dialog (used by both Dialog and Sheet) and Vaul (used by Drawer). */
+[role="dialog"],
+[data-vaul-drawer],
+[data-radix-dialog-content],
+[data-radix-popper-content-wrapper] {
+  overscroll-behavior: contain;
+}
+
+/* Ensure modal/sheet/drawer scroll surfaces stay inside the viewport on
+   mobile when content is long. The `[data-scroll]` attribute is a small
+   opt-in marker we add inside heavy panels (Settings, Persona, etc.). */
+@media (max-width: 767px) {
+  [data-scroll-area],
+  [data-radix-dialog-content],
+  [data-vaul-drawer-content] {
+    max-height: 90dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Typography responsive defaults — semantic h1/h2 elements scale up on
+   wider screens. Existing components that set explicit `text-*` classes
+   override these rules thanks to specificity (utility classes win). */
+h1 {
+  font-size: 1.25rem; /* text-xl */
+  line-height: 1.75rem;
+}
+h2 {
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem;
+}
+@media (min-width: 768px) {
+  h1 { font-size: 1.875rem; line-height: 2.25rem; } /* md:text-3xl */
+  h2 { font-size: 1.5rem; line-height: 2rem; }     /* md:text-2xl */
+}
+
+/* Final horizontal-overflow guard at the standard mobile range — mirrors
+   the 320px rule but runs across every phone width. Anything that tries to
+   force a wider-than-viewport row (e.g. a runaway pre/code block) is
+   capped here without breaking explicit overflow-x-auto containers. */
+@media (max-width: 767px) {
+  html,
+  body,
+  #root {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+}
+
+/* Accessibility — respect users with motion sensitivity (vestibular
+   disorders, etc.). Collapses animations and transitions to near-zero
+   without disabling them entirely (preserves state-change side effects). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

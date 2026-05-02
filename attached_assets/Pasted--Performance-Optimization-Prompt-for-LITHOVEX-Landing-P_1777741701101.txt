@@ -1,0 +1,45 @@
+🚀 Performance Optimization Prompt for LITHOVEX Landing Page
+You have a visually stunning landing page with particle canvas animations, scroll reveals, 3D tilts, and gradient effects. The lag likely comes from:
+
+Continuous particle canvas rendering (60 particles checking distance to 60 others = O(n²) calculations every frame)
+Multiple simultaneous observers (scroll reveal, counter animation, parallax all firing events constantly)
+Complex CSS animations running on hover across many elements
+Heavy filter effects (blur, glows) on glass-card elements
+Optimization Strategy (Keep All Visuals):
+Particle Canvas Optimization:
+
+Reduce particles from 60 → 30-40 while keeping visual density
+Use spatial partitioning instead of checking all particle pairs
+Cache distance calculations
+Throttle mouse event listeners to 16-33ms
+Use requestAnimationFrame more efficiently (already done, but batch updates)
+Observer Optimization:
+
+Combine reveal + counter observers into one observer
+Increase rootMargin to detect elements earlier (prevent layout thrashing)
+Use IntersectionObserver threshold levels more aggressively
+CSS Animation Improvements:
+
+Replace expensive rotateX/rotateY 3D transforms on hover with 2D scale/translateY
+Use will-change: transform only on hovered elements (not all cards by default)
+Simplify gradient animations or use background-position instead of full gradient recalculation
+Rendering Performance:
+
+Add transform: translateZ(0) to animated elements (GPU acceleration)
+Replace complex blur filters with simpler backdrop-filter alternatives
+Lazy-load fonts and icons (already loading Iconify, but defer non-critical icons)
+Debounce/throttle scroll event listeners for parallax orbs
+DOM Optimization:
+
+Memoize card components to prevent re-renders
+Use CSS containment (contain: layout paint) on glass-cards
+Reduce reflow by batching DOM reads/writes
+Key Files to Optimize:
+LandingPage.tsx - Particle logic, observer setup, event listeners
+landing.css - Keyframe animations, filter effects
+Reduce blur values: blur(80px) → blur(40px) on parallax orbs
+Simplify gradient animations frequency
+Test Metrics:
+Target FPS: 60 (currently probably 30-45)
+Measure: Chrome DevTools → Performance tab → Record 3-second scroll
+Check: Main thread blocking, paint times, layout shifts

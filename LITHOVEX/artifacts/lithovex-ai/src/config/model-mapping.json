@@ -1,0 +1,55 @@
+{
+  "claude-4-7-opus": {
+    "primary": "anthropic",
+    "fallbacks": ["openrouter", "gemini"],
+    "openrouter_model_id": "anthropic/claude-sonnet-4.6",
+    "style_profile": "analytical-cautious"
+  },
+  "claude-4-6-sonnet": {
+    "primary": "anthropic",
+    "fallbacks": ["openrouter", "gemini"],
+    "openrouter_model_id": "anthropic/claude-sonnet-4.6",
+    "style_profile": "analytical-cautious"
+  },
+  "gpt-5-5-codex": {
+    "primary": "openai",
+    "fallbacks": ["openrouter"],
+    "openrouter_model_id": "openai/gpt-4o",
+    "style_profile": "structured-engineer"
+  },
+  "gemini-3-1-pro": {
+    "primary": "gemini",
+    "fallbacks": ["openrouter"],
+    "openrouter_model_id": "google/gemini-2.5-pro",
+    "style_profile": "multimodal-analytical"
+  },
+  "gemini-pro-vision": {
+    "primary": "gemini",
+    "fallbacks": [],
+    "style_profile": "multimodal-creative"
+  },
+  "llama-3-70b-instruct": {
+    "primary": "huggingface",
+    "fallbacks": ["openrouter"],
+    "openrouter_model_id": "meta-llama/llama-3-70b-instruct",
+    "style_profile": "concise-direct"
+  },
+  "qwen-2-5-72b-instruct": {
+    "primary": "huggingface",
+    "fallbacks": ["openrouter"],
+    "openrouter_model_id": "qwen/qwen-2.5-72b-instruct",
+    "style_profile": "concise-direct"
+  },
+  "deepseek-r1": {
+    "primary": "huggingface",
+    "fallbacks": ["openrouter"],
+    "openrouter_model_id": "deepseek/deepseek-r1",
+    "style_profile": "analytical-cautious"
+  },
+  "mistral-large-instruct": {
+    "primary": "huggingface",
+    "fallbacks": ["openrouter"],
+    "openrouter_model_id": "mistralai/mistral-large",
+    "style_profile": "concise-direct"
+  }
+}
