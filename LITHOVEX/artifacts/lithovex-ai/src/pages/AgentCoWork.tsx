@@ -8,7 +8,7 @@ import {
   Check, Zap, BrainCircuit,
   Terminal, Move, ZoomIn, ZoomOut, Focus,
   CheckCircle2, Circle, CircleAlert, CircleDotDashed, CircleX,
-  Copy, ClipboardCheck, Users, ExternalLink, Sparkles, Link
+  Copy, ClipboardCheck, Users, ExternalLink, Sparkles
 } from 'lucide-react';
 
 // ==========================================
@@ -928,55 +928,6 @@ export default function AgentCoWork({ onExit }: AgentCoWorkProps = {}) {
     try { window.localStorage.setItem('lithovex.cowork.mobileHintDismissed', '1'); } catch {}
   }, []);
 
-  // ─── CUSTOM PROJECTS (Co-work showcase) ─────────────────────────────────
-  interface CustomProject {
-    id: string;
-    name: string;
-    description: string;
-    url: string;
-    emoji: string;
-    status: 'live' | 'soon';
-  }
-  const [customProjects, setCustomProjects] = useState<CustomProject[]>(() => {
-    if (typeof window === 'undefined') return [];
-    try {
-      const stored = window.localStorage.getItem('lithovex.cowork.customProjects');
-      return stored ? JSON.parse(stored) : [];
-    } catch { return []; }
-  });
-  const [addProjectOpen, setAddProjectOpen] = useState(false);
-  const [newProject, setNewProject] = useState({ name: '', description: '', url: '', emoji: '🚀', status: 'live' as 'live' | 'soon' });
-  const [newProjectError, setNewProjectError] = useState('');
-
-  const saveCustomProject = useCallback(() => {
-    if (!newProject.name.trim()) { setNewProjectError('Project name is required'); return; }
-    if (!newProject.description.trim()) { setNewProjectError('Description is required'); return; }
-    const proj: CustomProject = {
-      id: `custom-${Date.now()}`,
-      name: newProject.name.trim(),
-      description: newProject.description.trim(),
-      url: newProject.url.trim(),
-      emoji: newProject.emoji || '🚀',
-      status: newProject.status,
-    };
-    setCustomProjects(prev => {
-      const next = [...prev, proj];
-      try { window.localStorage.setItem('lithovex.cowork.customProjects', JSON.stringify(next)); } catch {}
-      return next;
-    });
-    setNewProject({ name: '', description: '', url: '', emoji: '🚀', status: 'live' });
-    setNewProjectError('');
-    setAddProjectOpen(false);
-  }, [newProject]);
-
-  const removeCustomProject = useCallback((id: string) => {
-    setCustomProjects(prev => {
-      const next = prev.filter(p => p.id !== id);
-      try { window.localStorage.setItem('lithovex.cowork.customProjects', JSON.stringify(next)); } catch {}
-      return next;
-    });
-  }, []);
-
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const CHATBOX_WIDTH = getChatBoxWidth();
@@ -1771,16 +1722,6 @@ export default function AgentCoWork({ onExit }: AgentCoWorkProps = {}) {
                       <Sparkles className="w-4 h-4 text-purple-400" />
                       <span className="text-xs font-bold uppercase tracking-widest text-purple-300">LITHOVEX Co-work successful projects made</span>
                     </div>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => { setAddProjectOpen(true); setNewProjectError(''); }}
-                      className="nodrag flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/40 text-purple-300 text-[11px] font-semibold hover:bg-purple-600/35 hover:border-purple-400 transition-all"
-                      style={{ minHeight: 0, minWidth: 0 }}
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      Add App
-                    </motion.button>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-h-72 overflow-y-auto custom-scrollbar pr-0.5">
                     {/* Build Linux System — LIVE running npm app */}
@@ -1871,169 +1812,12 @@ export default function AgentCoWork({ onExit }: AgentCoWorkProps = {}) {
                       </div>
                     </div>
 
-                    {/* Custom user-added projects */}
-                    {customProjects.map(proj => (
-                      <motion.div
-                        key={proj.id}
-                        whileHover={{ scale: 1.02, borderColor: 'rgba(139,92,246,0.6)' }}
-                        className="group relative bg-[#0d0d10] border border-[#2a2a2e] rounded-xl overflow-hidden"
-                      >
-                        <button
-                          onClick={() => removeCustomProject(proj.id)}
-                          className="nodrag absolute top-2 left-2 z-10 w-5 h-5 rounded-full bg-red-500/20 border border-red-500/30 text-red-400 hover:bg-red-500/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                          style={{ minHeight: 0, minWidth: 0 }}
-                          title="Remove project"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                        <div className="h-28 bg-gradient-to-br from-[#120a1f] to-[#0d0d18] flex items-center justify-center relative overflow-hidden">
-                          <span className="text-4xl">{proj.emoji}</span>
-                          {proj.status === 'live' && (
-                            <div className="absolute top-2 right-2 flex items-center gap-1 bg-green-500/20 border border-green-500/40 text-green-300 text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full">
-                              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
-                              Live
-                            </div>
-                          )}
-                          {proj.status === 'soon' && (
-                            <div className="absolute top-2 right-2 bg-zinc-800/70 text-zinc-400 text-[9px] px-1.5 py-0.5 rounded-full border border-zinc-700">Soon</div>
-                          )}
-                        </div>
-                        <div className="p-3">
-                          <p className="text-white text-xs font-bold mb-0.5 truncate">{proj.name}</p>
-                          <p className="text-zinc-500 text-[10px] leading-snug mb-3 line-clamp-2">{proj.description}</p>
-                          {proj.url ? (
-                            <a
-                              href={proj.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="nodrag w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/50 text-purple-200 text-[11px] font-semibold hover:bg-purple-600/35 hover:border-purple-400 transition-all"
-                            >
-                              <ExternalLink className="w-3.5 h-3.5" />
-                              View App
-                            </a>
-                          ) : (
-                            <div className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg bg-zinc-800/30 border border-zinc-700/50 text-zinc-500 text-[11px] font-semibold select-none">
-                              <Box className="w-3.5 h-3.5" /> No URL set
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
                   </div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* ── ADD PROJECT MODAL ─────────────────────────────────────────── */}
-          <AnimatePresence>
-            {addProjectOpen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm nodrag"
-                onClick={(e) => { if (e.target === e.currentTarget) setAddProjectOpen(false); }}
-              >
-                <motion.div
-                  initial={{ scale: 0.92, opacity: 0, y: 20 }}
-                  animate={{ scale: 1, opacity: 1, y: 0 }}
-                  exit={{ scale: 0.92, opacity: 0, y: 20 }}
-                  transition={{ type: "spring", stiffness: 320, damping: 26 }}
-                  className="w-full max-w-md bg-[#111114] border border-[#2a2a2e] rounded-2xl p-5 shadow-[0_30px_80px_rgba(0,0,0,0.7)]"
-                  onClick={e => e.stopPropagation()}
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-purple-400" />
-                      <span className="text-sm font-bold text-white">Add App to Showcase</span>
-                    </div>
-                    <button
-                      onClick={() => setAddProjectOpen(false)}
-                      className="p-1.5 rounded-lg text-zinc-500 hover:text-white hover:bg-white/8 transition-colors"
-                      style={{ minHeight: 0, minWidth: 0 }}
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex gap-2">
-                      <div className="flex-shrink-0">
-                        <p className="text-[10px] text-zinc-500 mb-1 font-semibold uppercase tracking-wider">Emoji</p>
-                        <input
-                          type="text"
-                          value={newProject.emoji}
-                          onChange={e => setNewProject(p => ({ ...p, emoji: e.target.value }))}
-                          className="w-14 text-center bg-[#1a1a1e] border border-[#2a2a2e] focus:border-purple-500/50 rounded-lg px-2 py-2 text-xl outline-none transition-colors"
-                          maxLength={2}
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-[10px] text-zinc-500 mb-1 font-semibold uppercase tracking-wider">Project Name *</p>
-                        <input
-                          type="text"
-                          placeholder="My Awesome App"
-                          value={newProject.name}
-                          onChange={e => { setNewProject(p => ({ ...p, name: e.target.value })); setNewProjectError(''); }}
-                          className="w-full bg-[#1a1a1e] border border-[#2a2a2e] focus:border-purple-500/50 rounded-lg px-3 py-2 text-sm text-white placeholder:text-zinc-600 outline-none transition-colors"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-[10px] text-zinc-500 mb-1 font-semibold uppercase tracking-wider">Description *</p>
-                      <textarea
-                        placeholder="What does this app do?"
-                        value={newProject.description}
-                        onChange={e => { setNewProject(p => ({ ...p, description: e.target.value })); setNewProjectError(''); }}
-                        rows={2}
-                        className="w-full bg-[#1a1a1e] border border-[#2a2a2e] focus:border-purple-500/50 rounded-lg px-3 py-2 text-sm text-white placeholder:text-zinc-600 outline-none resize-none transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <p className="text-[10px] text-zinc-500 mb-1 font-semibold uppercase tracking-wider">App URL (optional)</p>
-                      <div className="flex items-center gap-2 bg-[#1a1a1e] border border-[#2a2a2e] focus-within:border-purple-500/50 rounded-lg px-3 py-2 transition-colors">
-                        <Link className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />
-                        <input
-                          type="url"
-                          placeholder="https://myapp.example.com"
-                          value={newProject.url}
-                          onChange={e => setNewProject(p => ({ ...p, url: e.target.value }))}
-                          className="flex-1 bg-transparent text-sm text-white placeholder:text-zinc-600 outline-none"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-[10px] text-zinc-500 mb-1.5 font-semibold uppercase tracking-wider">Status</p>
-                      <div className="flex gap-2">
-                        {(['live', 'soon'] as const).map(s => (
-                          <button
-                            key={s}
-                            onClick={() => setNewProject(p => ({ ...p, status: s }))}
-                            style={{ minHeight: 0 }}
-                            className={`flex-1 py-1.5 rounded-lg text-xs font-semibold border transition-all ${newProject.status === s ? (s === 'live' ? 'bg-green-500/15 border-green-500/40 text-green-300' : 'bg-zinc-700/30 border-zinc-600/50 text-zinc-300') : 'bg-[#1a1a1e] border-[#2a2a2e] text-zinc-600 hover:border-zinc-600'}`}
-                          >
-                            {s === 'live' ? '🟢 Live' : '⏳ Coming Soon'}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    {newProjectError && (
-                      <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-[11px] text-red-400 bg-red-500/8 border border-red-500/20 rounded-lg px-3 py-2">
-                        {newProjectError}
-                      </motion.p>
-                    )}
-                    <button
-                      onClick={saveCustomProject}
-                      className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold transition-all shadow-lg shadow-purple-900/30 flex items-center justify-center gap-2"
-                    >
-                      <Check className="w-4 h-4" />
-                      Add to Showcase
-                    </button>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
         </div>
       </main>
